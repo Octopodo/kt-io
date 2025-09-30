@@ -1,3 +1,5 @@
+![KT IO Banner](docs/img/banner_io.jpg)
+
 # KT-IO
 
 A TypeScript library for file I/O operations in Adobe ExtendScript environments (e.g., After Effects, Photoshop, Illustrator).
