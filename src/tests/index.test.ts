@@ -11,7 +11,7 @@ import { KT } from "kt-core";
 import { IO } from "../index";
 
 const basePath =
-    IO.getCurrentScriptFile().parent.parent.fullName +
+    IO.fs.getCurrentScriptFile().parent.parent.fullName +
     "/src/tests/fixtures/test-files/";
 
 describe("IO Tests", () => {
@@ -23,101 +23,101 @@ describe("IO Tests", () => {
     describe("fileExists", () => {
         it("should return true for existing file (happy path)", () => {
             const filePath = basePath + "test-file.txt";
-            expect(IO.fileExists(filePath)).toBe(true);
+            expect(IO.fs.fileExists(filePath)).toBe(true);
         });
 
         it("should return false for non-existing file (sad path)", () => {
             const filePath = basePath + "non-existing.txt";
-            expect(IO.fileExists(filePath)).toBe(false);
+            expect(IO.fs.fileExists(filePath)).toBe(false);
         });
 
         it("should return false for empty path (edge case)", () => {
             const filePath = "";
-            expect(IO.fileExists(filePath)).toBe(false);
+            expect(IO.fs.fileExists(filePath)).toBe(false);
         });
 
         it("should return false for invalid path (edge case)", () => {
             const filePath = "invalid://path";
-            expect(IO.fileExists(filePath)).toBe(false);
+            expect(IO.fs.fileExists(filePath)).toBe(false);
         });
     });
 
     describe("getFileName", () => {
         it("should return filename without extension (happy path)", () => {
             const file = new File(basePath + "test-file.txt");
-            expect(IO.getFileName(file)).toBe("test-file");
+            expect(IO.path.getFileName(file)).toBe("test-file");
         });
 
         it("should return full name for file without extension (sad path)", () => {
             const file = new File(basePath + "test-file");
-            expect(IO.getFileName(file)).toBe("test-file");
+            expect(IO.path.getFileName(file)).toBe("test-file");
         });
 
         it("should handle files with multiple dots (edge case)", () => {
             const file = new File(basePath + "test.file.name.txt");
-            expect(IO.getFileName(file)).toBe("test.file.name");
+            expect(IO.path.getFileName(file)).toBe("test.file.name");
         });
 
         it("should handle empty filename (edge case)", () => {
             const file = new File("");
-            expect(IO.getFileName(file)).toBe("tmp00000001");
+            expect(IO.path.getFileName(file)).toBe("tmp00000001");
         });
     });
 
     describe("getFileExtension", () => {
         it("should return file extension (happy path)", () => {
             const file = new File(basePath + "test-file.txt");
-            expect(IO.getFileExtension(file)).toBe("txt");
+            expect(IO.path.getFileExtension(file)).toBe("txt");
         });
 
         it("should return empty string for files without extension (sad path)", () => {
             const file = new File(basePath + "test-file");
-            expect(IO.getFileExtension(file)).toBe("");
+            expect(IO.path.getFileExtension(file)).toBe("");
         });
 
         it("should handle files with multiple dots in name (edge case)", () => {
             const file = new File(basePath + "test.file.name.txt");
-            expect(IO.getFileExtension(file)).toBe("txt");
+            expect(IO.path.getFileExtension(file)).toBe("txt");
         });
 
         it("should return extension for files with compound extensions (edge case)", () => {
             const file = new File(basePath + "test-file.tar.gz");
-            expect(IO.getFileExtension(file)).toBe("gz");
+            expect(IO.path.getFileExtension(file)).toBe("gz");
         });
     });
 
     describe("stripFileExtension", () => {
         it("should strip file extension (happy path)", () => {
             const file = new File(basePath + "test-file.txt");
-            expect(IO.stripFileExtension(file)).toBe("test-file");
+            expect(IO.path.stripFileExtension(file)).toBe("test-file");
         });
 
         it("should return full name for file without extension (sad path)", () => {
             const file = new File(basePath + "test-file");
-            expect(IO.stripFileExtension(file)).toBe("test-file");
+            expect(IO.path.stripFileExtension(file)).toBe("test-file");
         });
 
         it("should handle files with multiple dots (edge case)", () => {
             const file = new File(basePath + "test.file.name.txt");
-            expect(IO.stripFileExtension(file)).toBe("test.file.name");
+            expect(IO.path.stripFileExtension(file)).toBe("test.file.name");
         });
 
         it("should handle empty filename (edge case)", () => {
             const file = new File("");
-            expect(IO.stripFileExtension(file)).toBe("tmp00000001");
+            expect(IO.path.stripFileExtension(file)).toBe("tmp00000001");
         });
     });
 
     describe("readFile", () => {
         it("should read content from existing file (happy path)", () => {
             const filePath = basePath + "test-file.txt";
-            const content = IO.readFile(filePath);
+            const content = IO.fs.readFile(filePath);
             expect(content).toBe("This is just a text file to test IO ");
         });
 
         it("should read content from File object (happy path)", () => {
             const file = new File(basePath + "test-file-2.txt");
-            const content = IO.readFile(file);
+            const content = IO.fs.readFile(file);
             expect(content).toBe(
                 "This is a second text file to test folder collection"
             );
@@ -125,31 +125,31 @@ describe("IO Tests", () => {
 
         it("should return null for non-existing file (sad path)", () => {
             const filePath = basePath + "non-existing.txt";
-            const content = IO.readFile(filePath);
+            const content = IO.fs.readFile(filePath);
             expect(content).toBe(null);
         });
 
         it("should return null for invalid path (edge case)", () => {
             const filePath = "";
-            const content = IO.readFile(filePath);
+            const content = IO.fs.readFile(filePath);
             expect(content).toBe(null);
         });
 
         it("should handle File object that does not exist (sad path)", () => {
             const file = new File(basePath + "non-existing.txt");
-            const content = IO.readFile(file);
+            const content = IO.fs.readFile(file);
             expect(content).toBe(null);
         });
     });
 
     describe("getCurrentScriptFile", () => {
         it("should return a File instance (happy path)", () => {
-            const scriptFile = IO.getCurrentScriptFile();
+            const scriptFile = IO.fs.getCurrentScriptFile();
             expect(scriptFile).toBeInstanceOf(File);
         });
 
         it("should return a file that exists (edge case)", () => {
-            const scriptFile = IO.getCurrentScriptFile();
+            const scriptFile = IO.fs.getCurrentScriptFile();
             expect(scriptFile.exists).toBe(true);
         });
     });
@@ -164,17 +164,17 @@ describe("IO Tests", () => {
         });
 
         afterEach(() => {
-            IO.deleteFile(tempFile);
+            IO.fs.deleteFile(tempFile);
         });
 
         it("should write content to a file (happy path)", () => {
             const content = "Test content";
-            expect(IO.writeFile(tempFile, content)).toBe(true);
-            expect(IO.readFile(tempFile)).toBe(content);
+            expect(IO.fs.writeFile(tempFile, content)).toBe(true);
+            expect(IO.fs.readFile(tempFile)).toBe(content);
         });
 
         it("should return false for invalid path (sad path)", () => {
-            expect(IO.writeFile("invalid://path", "content")).toBe(false);
+            expect(IO.fs.writeFile("invalid://path", "content")).toBe(false);
         });
     });
 
@@ -188,24 +188,24 @@ describe("IO Tests", () => {
         });
 
         afterEach(() => {
-            IO.deleteFile(destFile);
+            IO.fs.deleteFile(destFile);
         });
 
         it("should copy file successfully (happy path)", () => {
-            expect(IO.copyFile(sourceFile, destFile)).toBe(true);
-            expect(IO.fileExists(destFile)).toBe(true);
-            expect(IO.readFile(destFile)).toBe(IO.readFile(sourceFile));
+            expect(IO.fs.copyFile(sourceFile, destFile)).toBe(true);
+            expect(IO.fs.fileExists(destFile)).toBe(true);
+            expect(IO.fs.readFile(destFile)).toBe(IO.fs.readFile(sourceFile));
         });
 
         it("should return false if destination exists and overwrite false (edge case)", () => {
-            IO.writeFile(destFile, "existing");
-            expect(IO.copyFile(sourceFile, destFile, false)).toBe(false);
+            IO.fs.writeFile(destFile, "existing");
+            expect(IO.fs.copyFile(sourceFile, destFile, false)).toBe(false);
         });
 
         it("should overwrite if overwrite true (edge case)", () => {
-            IO.writeFile(destFile, "existing");
-            expect(IO.copyFile(sourceFile, destFile, true)).toBe(true);
-            expect(IO.readFile(destFile)).toBe(IO.readFile(sourceFile));
+            IO.fs.writeFile(destFile, "existing");
+            expect(IO.fs.copyFile(sourceFile, destFile, true)).toBe(true);
+            expect(IO.fs.readFile(destFile)).toBe(IO.fs.readFile(sourceFile));
         });
     });
 
@@ -216,23 +216,23 @@ describe("IO Tests", () => {
         beforeEach(() => {
             sourceFile = basePath + "temp-move.txt";
             destFile = basePath + "temp-moved.txt";
-            IO.writeFile(sourceFile, "move content");
+            IO.fs.writeFile(sourceFile, "move content");
         });
 
         afterEach(() => {
-            IO.deleteFile(sourceFile);
-            IO.deleteFile(destFile);
+            IO.fs.deleteFile(sourceFile);
+            IO.fs.deleteFile(destFile);
         });
 
         it("should move file successfully (happy path)", () => {
-            expect(IO.moveFile(sourceFile, destFile)).toBe(true);
-            expect(IO.fileExists(destFile)).toBe(true);
-            expect(IO.fileExists(sourceFile)).toBe(false);
+            expect(IO.fs.moveFile(sourceFile, destFile)).toBe(true);
+            expect(IO.fs.fileExists(destFile)).toBe(true);
+            expect(IO.fs.fileExists(sourceFile)).toBe(false);
         });
 
         it("should return false if destination exists and overwrite false (edge case)", () => {
-            IO.writeFile(destFile, "existing");
-            expect(IO.moveFile(sourceFile, destFile, false)).toBe(false);
+            IO.fs.writeFile(destFile, "existing");
+            expect(IO.fs.moveFile(sourceFile, destFile, false)).toBe(false);
         });
     });
 
@@ -241,16 +241,16 @@ describe("IO Tests", () => {
 
         beforeEach(() => {
             tempFile = basePath + "temp-delete.txt";
-            IO.writeFile(tempFile, "delete me");
+            IO.fs.writeFile(tempFile, "delete me");
         });
 
         it("should delete file successfully (happy path)", () => {
-            expect(IO.deleteFile(tempFile)).toBe(true);
-            expect(IO.fileExists(tempFile)).toBe(false);
+            expect(IO.fs.deleteFile(tempFile)).toBe(true);
+            expect(IO.fs.fileExists(tempFile)).toBe(false);
         });
 
         it("should return false for non-existing file (sad path)", () => {
-            expect(IO.deleteFile(basePath + "non-existing.txt")).toBe(false);
+            expect(IO.fs.deleteFile(basePath + "non-existing.txt")).toBe(false);
         });
     });
 
@@ -268,25 +268,25 @@ describe("IO Tests", () => {
         });
 
         it("should create directory (happy path)", () => {
-            expect(IO.createDirectory(tempDir)).toBe(true);
+            expect(IO.fs.createDirectory(tempDir)).toBe(true);
             expect(new Folder(tempDir).exists).toBe(true);
         });
 
         it("should return true if directory already exists (edge case)", () => {
-            IO.createDirectory(tempDir);
-            expect(IO.createDirectory(tempDir)).toBe(true);
+            IO.fs.createDirectory(tempDir);
+            expect(IO.fs.createDirectory(tempDir)).toBe(true);
         });
     });
 
     describe("listFiles", () => {
         it("should list files in directory (happy path)", () => {
-            const files = IO.listFiles(basePath);
+            const files = IO.fs.listFiles(basePath);
             expect(files.length).toBeGreaterThan(0);
             expect(files[0]).toBeInstanceOf(File);
         });
 
         it("should filter files with regex (edge case)", () => {
-            const files = IO.listFiles(basePath, /\.txt$/);
+            const files = IO.fs.listFiles(basePath, /\.txt$/);
             let allTxt = true;
             for (let i = 0; i < files.length; i++) {
                 if (!files[i].name.match(/\.txt$/)) {
@@ -298,7 +298,7 @@ describe("IO Tests", () => {
         });
 
         it("should filter files with function (edge case)", () => {
-            const files = IO.listFiles(
+            const files = IO.fs.listFiles(
                 basePath,
                 (f: File) => f.name.indexOf("test") !== -1
             );
@@ -315,36 +315,36 @@ describe("IO Tests", () => {
 
     describe("getFileSize", () => {
         it("should return file size (happy path)", () => {
-            const size = IO.getFileSize(basePath + "test-file.txt");
+            const size = IO.fs.getFileSize(basePath + "test-file.txt");
             expect(size).toBeGreaterThan(0);
         });
 
         it("should return null for non-existing file (sad path)", () => {
-            expect(IO.getFileSize(basePath + "non-existing.txt")).toBe(null);
+            expect(IO.fs.getFileSize(basePath + "non-existing.txt")).toBe(null);
         });
     });
 
     describe("getFileModifiedDate", () => {
         it("should return modification date (happy path)", () => {
-            const date = IO.getFileModifiedDate(basePath + "test-file.txt");
+            const date = IO.fs.getFileModifiedDate(basePath + "test-file.txt");
             expect(date).toBeInstanceOf(Date);
         });
 
         it("should return null for non-existing file (sad path)", () => {
-            expect(IO.getFileModifiedDate(basePath + "non-existing.txt")).toBe(
-                null
-            );
+            expect(
+                IO.fs.getFileModifiedDate(basePath + "non-existing.txt")
+            ).toBe(null);
         });
     });
 
     describe("resolvePath", () => {
         it("should resolve relative path (happy path)", () => {
-            const resolved = IO.resolvePath("test-file.txt", basePath);
-            expect(IO.fileExists(resolved)).toBe(true);
+            const resolved = IO.path.resolvePath("test-file.txt", basePath);
+            expect(IO.fs.fileExists(resolved)).toBe(true);
         });
 
         it("should resolve relative path with default base (edge case)", () => {
-            const resolved = IO.resolvePath("test-file.txt");
+            const resolved = IO.path.resolvePath("test-file.txt");
             // Assuming Folder.current is set appropriately, check if it's a valid path
             expect(typeof resolved).toBe("string");
 
@@ -360,20 +360,20 @@ describe("IO Tests", () => {
         });
 
         afterEach(() => {
-            IO.deleteFile(tempJsonFile);
+            IO.fs.deleteFile(tempJsonFile);
         });
 
         it("should write and read JSON (happy path)", () => {
             const testData = { key: "value", number: 42 };
-            expect(IO.writeJson(tempJsonFile, testData)).toBe(true);
-            const readData = IO.readJson(tempJsonFile);
+            expect(IO.fs.writeJson(tempJsonFile, testData)).toBe(true);
+            const readData = IO.fs.readJson(tempJsonFile);
             expect(readData.key).toBe("value");
             expect(readData.number).toBe(42);
         });
 
         it("should return null for invalid JSON (sad path)", () => {
-            IO.writeFile(tempJsonFile, "invalid json");
-            expect(IO.readJson(tempJsonFile)).toBe(null);
+            IO.fs.writeFile(tempJsonFile, "invalid json");
+            expect(IO.fs.readJson(tempJsonFile)).toBe(null);
         });
     });
 });

@@ -1,11 +1,4 @@
-export class IO {
-    private name = "KtIo";
-    private version = "1.0.0";
-
-    static fileExists(filePath: string): boolean {
-        return new File(filePath).exists;
-    }
-
+class KtPath {
     static getFileName(file: File): string {
         const fileName = file.name;
         return fileName.replace(new RegExp("\\.[^/.]+$"), "");
@@ -20,6 +13,32 @@ export class IO {
     static stripFileExtension(file: File): string {
         const fileName = file.name;
         return fileName.replace(new RegExp("\\.[^/.]+$"), "");
+    }
+
+    static resolvePath(relativePath: string, basePath?: string): string {
+        const base = basePath
+            ? new Folder(basePath)
+            : KtFs.getCurrentScriptFile().parent;
+        const resolved = new File(base.fsName + "/" + relativePath);
+        return resolved.fsName.replace(/\\/g, "/");
+    }
+
+    static joinPath(...paths: string[]): string {
+        if (paths.length === 0) return "";
+        let fullPath = paths[0];
+        for (let i = 1; i < paths.length; i++) {
+            const p = paths[i];
+            if (p) {
+                fullPath =
+                    fullPath.replace(/\/+$/, "") + "/" + p.replace(/^\/+/, "");
+            }
+        }
+        return fullPath;
+    }
+}
+class KtFs {
+    static fileExists(filePath: string): boolean {
+        return new File(filePath).exists;
     }
 
     static readFile(fileOrPath: string | File): string | null {
@@ -148,7 +167,7 @@ export class IO {
                 // For recursive, create parent if needed
                 const parent = folder.parent;
                 if (parent && !parent.exists) {
-                    this.createDirectory(parent.fsName, true);
+                    KtFs.createDirectory(parent.fsName, true);
                 }
             }
             return folder.create();
@@ -199,38 +218,17 @@ export class IO {
         return file.modified;
     }
 
-    static resolvePath(relativePath: string, basePath?: string): string {
-        const base = basePath
-            ? new Folder(basePath)
-            : IO.getCurrentScriptFile().parent;
-        const resolved = new File(base.fsName + "/" + relativePath);
-        return resolved.fsName.replace(/\\/g, "/");
-    }
-
-    static joinPath(...paths: string[]): string {
-        if (paths.length === 0) return "";
-        let fullPath = paths[0];
-        for (let i = 1; i < paths.length; i++) {
-            const p = paths[i];
-            if (p) {
-                fullPath =
-                    fullPath.replace(/\/+$/, "") + "/" + p.replace(/^\/+/, "");
-            }
-        }
-        return fullPath;
-    }
-
     static writeJson(fileOrPath: string | File, data: any): boolean {
         try {
             const json = JSON.stringify(data);
-            return this.writeFile(fileOrPath, json);
+            return KtFs.writeFile(fileOrPath, json);
         } catch (e) {
             return false;
         }
     }
 
     static readJson(fileOrPath: string | File): any | null {
-        const content = this.readFile(fileOrPath);
+        const content = KtFs.readFile(fileOrPath);
         if (!content) return null;
         try {
             return JSON.parse(content);
@@ -238,4 +236,12 @@ export class IO {
             return null;
         }
     }
+}
+
+export class IO {
+    static path = KtPath;
+    static fs = KtFs;
+
+    private name = "KtIo";
+    private version = "1.0.0";
 }
