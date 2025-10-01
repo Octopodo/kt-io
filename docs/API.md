@@ -12,23 +12,9 @@ Here you can find a reference to all existing methods in the IO module, organize
 - [resolvePath](#resolvepath)
 - [joinPath](#joinpath)
 
-### IO.fs (File System Operations)
+### IO.utils (High-level Utilities)
 
-- [fileExists](#fileexists)
-- [readFile](#readfile)
-- [writeFile](#writefile)
-- [copyFile](#copyfile)
-- [moveFile](#movefile)
-- [deleteFile](#deletefile)
-- [createDirectory](#createdirectory)
-- [listFiles](#listfiles)
-- [getFileSize](#getfilesize)
-- [getFileModifiedDate](#getfilemodifieddate)
-- [writeJson](#writejson)
-- [readJson](#readjson)
-- [getCurrentScriptFile](#getcurrentscriptfile)
-- [openFileDialog](#openfiledialog)
-- [openFolderDialog](#openfolderdialog)
+- [createFolderTree](#createfoldertree)
 
 ## Path Utilities (IO.path)
 
@@ -399,4 +385,46 @@ Gets the current script file.
 ```typescript
 const scriptFile = IO.fs.getCurrentScriptFile();
 const scriptDir = scriptFile.parent;
+```
+
+## High-level Utilities (IO.utils)
+
+### `createFolderTree`
+
+Creates a folder structure based on an object or JSON representation.
+
+**Arguments:**
+
+| Parameter  | Description                                         |
+| ---------- | --------------------------------------------------- |
+| `tree`     | Object or JSON string representing folder structure |
+| `rootPath` | Root path where the structure will be created       |
+
+**Examples:**
+
+```typescript
+// Create a project structure
+const projectStructure = {
+    src: {
+        components: {},
+        utils: {},
+        styles: {},
+    },
+    docs: {},
+    tests: {
+        unit: {},
+        integration: {},
+    },
+    build: {},
+};
+
+IO.utils.createFolderTree(projectStructure, "/path/to/project");
+
+// Or using JSON string
+const jsonStructure = '{"src":{},"docs":{},"tests":{}}';
+IO.utils.createFolderTree(jsonStructure, "/path/to/project");
+```
+
+```
+
 ```

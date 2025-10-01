@@ -61,6 +61,21 @@ IO.fs.createDirectory("logs", true); // recursive
 const files = IO.fs.listFiles("data", /\.txt$/);
 ```
 
+## High-level Utilities
+
+KT-IO provides high-level utilities for common tasks:
+
+```typescript
+// Create project structures from objects
+const projectStructure = {
+    src: { components: {}, utils: {} },
+    docs: {},
+    tests: {},
+};
+
+IO.utils.createFolderTree(projectStructure, "/path/to/project");
+```
+
 ## Build Scripts
 
 To transpile for ExtendScript, run:

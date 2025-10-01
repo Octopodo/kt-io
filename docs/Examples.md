@@ -313,3 +313,55 @@ function syncFolders(sourceFolder, targetFolder) {
     }
 }
 ```
+
+## Project Structure Creation
+
+### Creating Folder Trees
+
+```typescript
+// Define a project structure
+const projectStructure = {
+    src: {
+        main: {
+            java: {},
+            resources: {},
+        },
+        test: {
+            java: {},
+            resources: {},
+        },
+    },
+    docs: {
+        api: {},
+        "user-guide": {},
+    },
+    build: {
+        classes: {},
+        "test-classes": {},
+    },
+    config: {},
+};
+
+// Create the structure
+IO.utils.createFolderTree(projectStructure, "/path/to/new-project");
+
+// You can also use a JSON string
+const structureJson = JSON.stringify({
+    frontend: {
+        src: {
+            components: {},
+            pages: {},
+            utils: {},
+        },
+        public: {},
+        dist: {},
+    },
+    backend: {
+        src: {},
+        tests: {},
+        config: {},
+    },
+});
+
+IO.utils.createFolderTree(structureJson, "/path/to/fullstack-app");
+```
