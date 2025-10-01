@@ -1,0 +1,38 @@
+export class KtPath {
+    static getFileName(file: File): string {
+        const fileName = file.name;
+        return fileName.replace(new RegExp("\\.[^/.]+$"), "");
+    }
+
+    static getFileExtension(file: File): string {
+        const fileName = file.name;
+        const match = fileName.match(new RegExp("\\.([^.]+)$"));
+        return match ? match[1] : "";
+    }
+
+    static stripFileExtension(file: File): string {
+        const fileName = file.name;
+        return fileName.replace(new RegExp("\\.[^/.]+$"), "");
+    }
+
+    static resolvePath(relativePath: string, basePath?: string): string {
+        const base = basePath
+            ? new Folder(basePath)
+            : new File($.fileName).parent; //Same as KtFs.getCurrentScriptFile()
+        const resolved = new File(base.fsName + "/" + relativePath);
+        return resolved.fsName.replace(/\\/g, "/");
+    }
+
+    static joinPath(...paths: string[]): string {
+        if (paths.length === 0) return "";
+        let fullPath = paths[0];
+        for (let i = 1; i < paths.length; i++) {
+            const p = paths[i];
+            if (p) {
+                fullPath =
+                    fullPath.replace(/\/+$/, "") + "/" + p.replace(/^\/+/, "");
+            }
+        }
+        return fullPath;
+    }
+}
