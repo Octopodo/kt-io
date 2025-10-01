@@ -365,3 +365,32 @@ const structureJson = JSON.stringify({
 
 IO.utils.createFolderTree(structureJson, "/path/to/fullstack-app");
 ```
+
+### Scanning Folder Structures
+
+```typescript
+// Scan an existing project structure
+const projectPath = "/path/to/existing-project";
+const structure = IO.utils.scanFolderTree(projectPath);
+
+// The result is a JSON object representing the hierarchy
+console.log(JSON.stringify(structure, null, 2));
+
+// You can use it to recreate the structure elsewhere
+IO.utils.createFolderTree(structure, "/path/to/backup");
+
+// Or analyze the structure
+function analyzeStructure(structure: any, prefix = "") {
+    for (const key in structure) {
+        const item = structure[key];
+        if (item.type === "folder") {
+            console.log(prefix + "📁 " + key);
+            analyzeStructure(item.contents, prefix + "  ");
+        } else if (item.type === "file") {
+            console.log(prefix + "📄 " + key + " (" + item.size + " bytes)");
+        }
+    }
+}
+
+analyzeStructure(structure);
+```

@@ -9,12 +9,28 @@ Here you can find a reference to all existing methods in the IO module, organize
 - [getFileName](#getfilename)
 - [getFileExtension](#getfileextension)
 - [stripFileExtension](#stripfileextension)
-- [resolvePath](#resolvepath)
-- [joinPath](#joinpath)
+- [resolve](#resolve)
+- [join](#join)
+
+### IO.fs (File System Operations)
+
+- [fileExists](#fileexists)
+- [readFile](#readfile)
+- [writeFile](#writefile)
+- [copyFile](#copyfile)
+- [moveFile](#movefile)
+- [deleteFile](#deletefile)
+- [createDirectory](#createdirectory)
+- [listFiles](#listfiles)
+- [getFileSize](#getfilesize)
+- [getFileModifiedDate](#getfilemodifieddate)
+- [writeJson](#writejson)
+- [readJson](#readjson)
 
 ### IO.utils (High-level Utilities)
 
 - [createFolderTree](#createfoldertree)
+- [scanFolderTree](#scanfoldertree)
 
 ## Path Utilities (IO.path)
 
@@ -27,6 +43,8 @@ Returns the filename without extension.
 | Parameter | Description      |
 | --------- | ---------------- |
 | `file`    | The file object. |
+
+**Returns:** `string` - The filename without extension.
 
 **Examples:**
 
@@ -45,6 +63,8 @@ Returns the file extension.
 | --------- | ---------------- |
 | `file`    | The file object. |
 
+**Returns:** `string` - The file extension (without the dot), or empty string if no extension.
+
 **Examples:**
 
 ```typescript
@@ -62,6 +82,8 @@ Alias for `getFileName`, returns filename without extension.
 | --------- | ---------------- |
 | `file`    | The file object. |
 
+**Returns:** `string` - The filename without extension.
+
 **Examples:**
 
 ```typescript
@@ -69,7 +91,7 @@ const file = new File("path/to/document.txt");
 const name = IO.path.stripFileExtension(file); // 'document'
 ```
 
-### `resolvePath`
+### `resolve`
 
 Resolves a relative path to an absolute path based on the current script's directory or a provided base path.
 
@@ -80,17 +102,19 @@ Resolves a relative path to an absolute path based on the current script's direc
 | `relativePath` | The relative path to resolve.                     |
 | `basePath?`    | Optional base path. Defaults to script directory. |
 
+**Returns:** `string` - The absolute resolved path.
+
 **Examples:**
 
 ```typescript
-const absPath = IO.path.resolvePath("data/file.txt");
+const absPath = IO.path.resolve("data/file.txt");
 // Resolves to: /path/to/script/data/file.txt
 
-const absPath2 = IO.path.resolvePath("file.txt", "/custom/base");
+const absPath2 = IO.path.resolve("file.txt", "/custom/base");
 // Resolves to: /custom/base/file.txt
 ```
 
-### `joinPath`
+### `join`
 
 Joins multiple path segments into a single path.
 
@@ -100,10 +124,12 @@ Joins multiple path segments into a single path.
 | ---------- | ---------------------- |
 | `...paths` | Path segments to join. |
 
+**Returns:** `string` - The joined path with normalized separators.
+
 **Examples:**
 
 ```typescript
-const path = IO.path.joinPath("folder", "subfolder", "file.txt");
+const path = IO.path.join("folder", "subfolder", "file.txt");
 // Result: "folder/subfolder/file.txt"
 ```
 
@@ -118,6 +144,8 @@ Checks if a file exists at the given path.
 | Parameter  | Description           |
 | ---------- | --------------------- |
 | `filePath` | The path to the file. |
+
+**Returns:** `boolean` - True if the file exists, false otherwise.
 
 **Examples:**
 
@@ -135,6 +163,8 @@ Reads the content of a file.
 | Parameter    | Description                   |
 | ------------ | ----------------------------- |
 | `fileOrPath` | The file path or File object. |
+
+**Returns:** `string | null` - The file content as a string, or null if the file doesn't exist or can't be read.
 
 **Examples:**
 
@@ -157,6 +187,8 @@ Writes content to a file.
 | `content`    | The content to write.            |
 | `encoding`   | The encoding (default: 'UTF-8'). |
 
+**Returns:** `boolean` - True if the file was written successfully, false otherwise.
+
 **Examples:**
 
 ```typescript
@@ -178,6 +210,8 @@ Copies a file from source to destination.
 | `destPath`   | Destination file.                                            |
 | `overwrite`  | Whether to overwrite if destination exists (default: false). |
 
+**Returns:** `boolean` - True if the file was copied successfully, false otherwise.
+
 **Examples:**
 
 ```typescript
@@ -197,6 +231,8 @@ Moves (renames) a file.
 | `destPath`   | Destination file.                                            |
 | `overwrite`  | Whether to overwrite if destination exists (default: false). |
 
+**Returns:** `boolean` - True if the file was moved successfully, false otherwise.
+
 **Examples:**
 
 ```typescript
@@ -213,6 +249,8 @@ Deletes a file.
 | Parameter    | Description         |
 | ------------ | ------------------- |
 | `fileOrPath` | The file to delete. |
+
+**Returns:** `boolean` - True if the file was deleted successfully, false otherwise.
 
 **Examples:**
 
@@ -233,6 +271,8 @@ Creates a directory.
 | `path`      | The directory path.                                    |
 | `recursive` | Whether to create parent directories (default: false). |
 
+**Returns:** `boolean` - True if the directory was created successfully, false otherwise.
+
 **Examples:**
 
 ```typescript
@@ -250,6 +290,8 @@ Lists files in a directory, optionally filtered.
 | ------------ | -------------------------------------- |
 | `folderPath` | The directory.                         |
 | `filter`     | Filter for files (RegExp or Function). |
+
+**Returns:** `Array<File>` - Array of File objects matching the criteria.
 
 **Examples:**
 
@@ -274,6 +316,8 @@ Gets the file size in bytes.
 | ------------ | ----------- |
 | `fileOrPath` | The file.   |
 
+**Returns:** `number | null` - The file size in bytes, or null if the file doesn't exist.
+
 **Examples:**
 
 ```typescript
@@ -289,6 +333,8 @@ Gets the last modified date.
 | Parameter    | Description |
 | ------------ | ----------- |
 | `fileOrPath` | The file.   |
+
+**Returns:** `Date | null` - The last modified date, or null if the file doesn't exist.
 
 **Examples:**
 
@@ -309,6 +355,8 @@ Writes data as JSON to a file.
 | `fileOrPath` | The file.              |
 | `data`       | The data to serialize. |
 
+**Returns:** `boolean` - True if the JSON was written successfully, false otherwise.
+
 **Examples:**
 
 ```typescript
@@ -325,6 +373,8 @@ Reads JSON from a file.
 | Parameter    | Description |
 | ------------ | ----------- |
 | `fileOrPath` | The file.   |
+
+**Returns:** `any | null` - The parsed JSON data, or null if the file doesn't exist or JSON is invalid.
 
 **Examples:**
 
@@ -400,6 +450,8 @@ Creates a folder structure based on an object or JSON representation.
 | `tree`     | Object or JSON string representing folder structure |
 | `rootPath` | Root path where the structure will be created       |
 
+**Returns:** `void`
+
 **Examples:**
 
 ```typescript
@@ -423,6 +475,40 @@ IO.utils.createFolderTree(projectStructure, "/path/to/project");
 // Or using JSON string
 const jsonStructure = '{"src":{},"docs":{},"tests":{}}';
 IO.utils.createFolderTree(jsonStructure, "/path/to/project");
+```
+
+### `scanFolderTree`
+
+Scans a folder structure and returns a JSON representation of the hierarchy.
+
+**Arguments:**
+
+| Parameter    | Description                |
+| ------------ | -------------------------- |
+| `folderPath` | Path to the folder to scan |
+
+**Returns:** `any` - Object representing the folder structure with files and subfolders.
+
+**Examples:**
+
+```typescript
+const structure = IO.utils.scanFolderTree("/path/to/project");
+console.log(JSON.stringify(structure, null, 2));
+// Output:
+// {
+//   "src": {
+//     "type": "folder",
+//     "path": "/path/to/project/src",
+//     "contents": {
+//       "index.ts": {
+//         "type": "file",
+//         "path": "/path/to/project/src/index.ts",
+//         "size": 2048,
+//         "modified": "Mon Oct 01 2025 12:00:00 GMT-0500"
+//       }
+//     }
+//   }
+// }
 ```
 
 ```
