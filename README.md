@@ -27,18 +27,18 @@ Here are some examples of how to use KT-IO:
 import { IO } from "kt-io";
 
 // Check if file exists
-if (IO.fileExists("data.txt")) {
+if (IO.fs.fileExists("data.txt")) {
     // Read file content
-    const content = IO.readFile("data.txt");
+    const content = IO.fs.readFile("data.txt");
     alert("File content: " + content);
 }
 
 // Write JSON data
 const config = { theme: "dark", language: "en" };
-IO.writeJson("config.json", config);
+IO.fs.writeJson("config.json", config);
 
 // Copy files
-IO.copyFile("source.txt", "backup.txt");
+IO.fs.copyFile("source.txt", "backup.txt");
 ```
 
 ## File Operations
@@ -47,18 +47,18 @@ KT-IO supports various file operations:
 
 ```typescript
 // File existence and metadata
-const exists = IO.fileExists("file.txt");
-const size = IO.getFileSize("file.txt");
-const modified = IO.getFileModifiedDate("file.txt");
+const exists = IO.fs.fileExists("file.txt");
+const size = IO.fs.getFileSize("file.txt");
+const modified = IO.fs.getFileModifiedDate("file.txt");
 
 // File operations
-IO.copyFile("source.txt", "dest.txt");
-IO.moveFile("old.txt", "new.txt");
-IO.deleteFile("temp.txt");
+IO.fs.copyFile("source.txt", "dest.txt");
+IO.fs.moveFile("old.txt", "new.txt");
+IO.fs.deleteFile("temp.txt");
 
 // Directory operations
-IO.createDirectory("logs", true); // recursive
-const files = IO.listFiles("data", /\.txt$/);
+IO.fs.createDirectory("logs", true); // recursive
+const files = IO.fs.listFiles("data", /\.txt$/);
 ```
 
 ## Build Scripts

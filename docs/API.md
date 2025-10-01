@@ -1,49 +1,36 @@
 # API Reference
 
-Here you can find a reference to all existing methods in the IO class.
+Here you can find a reference to all existing methods in the IO module, organized by `IO.path` and `IO.fs` submodules.
 
 ## Index
 
-- [copyFile](#copyfile)
-- [createDirectory](#createdirectory)
-- [deleteFile](#deletefile)
-- [fileExists](#fileexists)
-- [getCurrentScriptFile](#getcurrentscriptfile)
-- [getFileExtension](#getfileextension)
-- [getFileModifiedDate](#getfilemodifieddate)
+### IO.path (Path Utilities)
+
 - [getFileName](#getfilename)
-- [getFileSize](#getfilesize)
-- [listFiles](#listfiles)
+- [getFileExtension](#getfileextension)
+- [stripFileExtension](#stripfileextension)
+- [resolvePath](#resolvepath)
+- [joinPath](#joinpath)
+
+### IO.fs (File System Operations)
+
+- [fileExists](#fileexists)
+- [readFile](#readfile)
+- [writeFile](#writefile)
+- [copyFile](#copyfile)
 - [moveFile](#movefile)
+- [deleteFile](#deletefile)
+- [createDirectory](#createdirectory)
+- [listFiles](#listfiles)
+- [getFileSize](#getfilesize)
+- [getFileModifiedDate](#getfilemodifieddate)
+- [writeJson](#writejson)
+- [readJson](#readjson)
+- [getCurrentScriptFile](#getcurrentscriptfile)
 - [openFileDialog](#openfiledialog)
 - [openFolderDialog](#openfolderdialog)
-- [readFile](#readfile)
-- [readJson](#readjson)
-- [resolvePath](#resolvepath)
-- [stripFileExtension](#stripfileextension)
-- [writeFile](#writefile)
-- [writeJson](#writejson)
 
-## File Existence
-
-### `fileExists`
-
-Checks if a file exists at the given path.
-
-**Arguments:**
-
-| Parameter  | Description           |
-| ---------- | --------------------- |
-| `filePath` | The path to the file. |
-
-**Examples:**
-
-```typescript
-expect(IO.fileExists("data.txt")).toBe(true);
-expect(IO.fileExists("nonexistent.txt")).toBe(false);
-```
-
-## File Name and Extension
+## Path Utilities (IO.path)
 
 ### `getFileName`
 
@@ -59,7 +46,7 @@ Returns the filename without extension.
 
 ```typescript
 const file = new File("path/to/document.txt");
-const name = IO.getFileName(file); // 'document'
+const name = IO.path.getFileName(file); // 'document'
 ```
 
 ### `getFileExtension`
@@ -76,7 +63,7 @@ Returns the file extension.
 
 ```typescript
 const file = new File("path/to/document.txt");
-const ext = IO.getFileExtension(file); // 'txt'
+const ext = IO.path.getFileExtension(file); // 'txt'
 ```
 
 ### `stripFileExtension`
@@ -93,10 +80,65 @@ Alias for `getFileName`, returns filename without extension.
 
 ```typescript
 const file = new File("path/to/document.txt");
-const name = IO.stripFileExtension(file); // 'document'
+const name = IO.path.stripFileExtension(file); // 'document'
 ```
 
-## File Reading and Writing
+### `resolvePath`
+
+Resolves a relative path to an absolute path based on the current script's directory or a provided base path.
+
+**Arguments:**
+
+| Parameter      | Description                                       |
+| -------------- | ------------------------------------------------- |
+| `relativePath` | The relative path to resolve.                     |
+| `basePath?`    | Optional base path. Defaults to script directory. |
+
+**Examples:**
+
+```typescript
+const absPath = IO.path.resolvePath("data/file.txt");
+// Resolves to: /path/to/script/data/file.txt
+
+const absPath2 = IO.path.resolvePath("file.txt", "/custom/base");
+// Resolves to: /custom/base/file.txt
+```
+
+### `joinPath`
+
+Joins multiple path segments into a single path.
+
+**Arguments:**
+
+| Parameter  | Description            |
+| ---------- | ---------------------- |
+| `...paths` | Path segments to join. |
+
+**Examples:**
+
+```typescript
+const path = IO.path.joinPath("folder", "subfolder", "file.txt");
+// Result: "folder/subfolder/file.txt"
+```
+
+## File System Operations (IO.fs)
+
+### `fileExists`
+
+Checks if a file exists at the given path.
+
+**Arguments:**
+
+| Parameter  | Description           |
+| ---------- | --------------------- |
+| `filePath` | The path to the file. |
+
+**Examples:**
+
+```typescript
+expect(IO.fs.fileExists("data.txt")).toBe(true);
+expect(IO.fs.fileExists("nonexistent.txt")).toBe(false);
+```
 
 ### `readFile`
 
@@ -111,7 +153,7 @@ Reads the content of a file.
 **Examples:**
 
 ```typescript
-const content = IO.readFile("data.txt");
+const content = IO.fs.readFile("data.txt");
 if (content) {
     // Process content
 }
@@ -132,8 +174,8 @@ Writes content to a file.
 **Examples:**
 
 ```typescript
-IO.writeFile("output.txt", "Hello World");
-IO.writeFile("output.txt", "Hello World", "UTF-8");
+IO.fs.writeFile("output.txt", "Hello World");
+IO.fs.writeFile("output.txt", "Hello World", "UTF-8");
 ```
 
 ## File Operations
@@ -153,8 +195,8 @@ Copies a file from source to destination.
 **Examples:**
 
 ```typescript
-IO.copyFile("source.txt", "dest.txt");
-IO.copyFile("source.txt", "dest.txt", true);
+IO.fs.copyFile("source.txt", "dest.txt");
+IO.fs.copyFile("source.txt", "dest.txt", true);
 ```
 
 ### `moveFile`
@@ -172,8 +214,8 @@ Moves (renames) a file.
 **Examples:**
 
 ```typescript
-IO.moveFile("old.txt", "new.txt");
-IO.moveFile("old.txt", "new.txt", true);
+IO.fs.moveFile("old.txt", "new.txt");
+IO.fs.moveFile("old.txt", "new.txt", true);
 ```
 
 ### `deleteFile`
@@ -189,7 +231,7 @@ Deletes a file.
 **Examples:**
 
 ```typescript
-IO.deleteFile("temp.txt");
+IO.fs.deleteFile("temp.txt");
 ```
 
 ## Directory Operations
@@ -208,8 +250,8 @@ Creates a directory.
 **Examples:**
 
 ```typescript
-IO.createDirectory("logs");
-IO.createDirectory("path/to/new/folder", true);
+IO.fs.createDirectory("logs");
+IO.fs.createDirectory("path/to/new/folder", true);
 ```
 
 ### `listFiles`
@@ -226,9 +268,9 @@ Lists files in a directory, optionally filtered.
 **Examples:**
 
 ```typescript
-const files = IO.listFiles("path/to/folder");
-const txtFiles = IO.listFiles("path/to/folder", /\.txt$/);
-const filteredFiles = IO.listFiles(
+const files = IO.fs.listFiles("path/to/folder");
+const txtFiles = IO.fs.listFiles("path/to/folder", /\.txt$/);
+const filteredFiles = IO.fs.listFiles(
     "data",
     (file) => file.name.indexOf("test") !== -1
 );
@@ -249,7 +291,7 @@ Gets the file size in bytes.
 **Examples:**
 
 ```typescript
-const size = IO.getFileSize("largefile.dat");
+const size = IO.fs.getFileSize("largefile.dat");
 ```
 
 ### `getFileModifiedDate`
@@ -265,27 +307,7 @@ Gets the last modified date.
 **Examples:**
 
 ```typescript
-const modified = IO.getFileModifiedDate("document.txt");
-```
-
-## Path Resolution
-
-### `resolvePath`
-
-Resolves a relative path to an absolute path.
-
-**Arguments:**
-
-| Parameter      | Description                            |
-| -------------- | -------------------------------------- |
-| `relativePath` | The relative path.                     |
-| `basePath`     | Base path (default: script directory). |
-
-**Examples:**
-
-```typescript
-const absPath = IO.resolvePath("data/file.txt");
-const absPath2 = IO.resolvePath("file.txt", "/base/path");
+const modified = IO.fs.getFileModifiedDate("document.txt");
 ```
 
 ## JSON Operations
@@ -305,7 +327,7 @@ Writes data as JSON to a file.
 
 ```typescript
 const config = { theme: "dark", language: "en" };
-IO.writeJson("config.json", config);
+IO.fs.writeJson("config.json", config);
 ```
 
 ### `readJson`
@@ -321,7 +343,7 @@ Reads JSON from a file.
 **Examples:**
 
 ```typescript
-const config = IO.readJson("config.json");
+const config = IO.fs.readJson("config.json");
 if (config) {
     // Use config
 }
@@ -343,10 +365,10 @@ Opens a file selection dialog.
 **Examples:**
 
 ```typescript
-const files = IO.openFileDialog("Select files");
-const txtFiles = IO.openFileDialog(
+const files = IO.fs.openFileDialog("Select files");
+const txtFiles = IO.fs.openFileDialog(
     "Select text files",
-    (file) => IO.getFileExtension(file) === "txt"
+    (file) => IO.path.getFileExtension(file) === "txt"
 );
 ```
 
@@ -375,6 +397,6 @@ Gets the current script file.
 **Examples:**
 
 ```typescript
-const scriptFile = IO.getCurrentScriptFile();
+const scriptFile = IO.fs.getCurrentScriptFile();
 const scriptDir = scriptFile.parent;
 ```

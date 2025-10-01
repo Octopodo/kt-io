@@ -10,16 +10,16 @@ This document provides advanced usage examples for the KT-IO library.
 import { IO } from "kt-io";
 
 // Read a text file
-const content = IO.readFile("input.txt");
+const content = IO.fs.readFile("input.txt");
 if (content) {
     // Modify content
     const modified = content.toUpperCase();
-    IO.writeFile("output.txt", modified);
+    IO.fs.writeFile("output.txt", modified);
 }
 
 // Check if file exists before reading
-if (IO.fileExists("data.txt")) {
-    const data = IO.readFile("data.txt");
+if (IO.fs.fileExists("data.txt")) {
+    const data = IO.fs.readFile("data.txt");
     // Process data
 }
 ```
@@ -28,8 +28,8 @@ if (IO.fileExists("data.txt")) {
 
 ```typescript
 // Get file information
-const size = IO.getFileSize("largefile.dat");
-const modified = IO.getFileModifiedDate("document.txt");
+const size = IO.fs.getFileSize("largefile.dat");
+const modified = IO.fs.getFileModifiedDate("document.txt");
 
 if (modified) {
     const now = new Date();
@@ -53,10 +53,10 @@ const config = {
     autoSave: true,
     recentFiles: ["file1.txt", "file2.txt"],
 };
-IO.writeJson("config.json", config);
+IO.fs.writeJson("config.json", config);
 
 // Read configuration with error handling
-const loadedConfig = IO.readJson("config.json");
+const loadedConfig = IO.fs.readJson("config.json");
 if (loadedConfig) {
     // Apply configuration
     applyTheme(loadedConfig.theme);
@@ -76,10 +76,10 @@ const projectData = {
     layers: getAllLayers(),
     settings: getProjectSettings(),
 };
-IO.writeJson("project_export.json", projectData);
+IO.fs.writeJson("project_export.json", projectData);
 
 // Import project data
-const importedData = IO.readJson("project_export.json");
+const importedData = IO.fs.readJson("project_export.json");
 if (importedData) {
     createProject(importedData);
 }
@@ -95,9 +95,9 @@ const importantFiles = ["config.json", "data.txt", "settings.json"];
 
 for (let i = 0; i < importantFiles.length; i++) {
     const file = importantFiles[i];
-    if (IO.fileExists(file)) {
+    if (IO.fs.fileExists(file)) {
         const backupName = file.replace(".", "_backup.");
-        IO.copyFile(file, backupName, true);
+        IO.fs.copyFile(file, backupName, true);
     }
 }
 ```
@@ -106,18 +106,18 @@ for (let i = 0; i < importantFiles.length; i++) {
 
 ```typescript
 // Move files to organized folders
-const files = IO.listFiles("downloads");
+const files = IO.fs.listFiles("downloads");
 for (let i = 0; i < files.length; i++) {
     const file = files[i];
-    const ext = IO.getFileExtension(file);
+    const ext = IO.path.getFileExtension(file);
 
     // Create folder for file type
     const folder = "organized/" + ext;
-    IO.createDirectory(folder, true);
+    IO.fs.createDirectory(folder, true);
 
     // Move file to appropriate folder
     const newPath = folder + "/" + file.name;
-    IO.moveFile(file.fsName, newPath);
+    IO.fs.moveFile(file.fsName, newPath);
 }
 ```
 
@@ -135,7 +135,7 @@ const folders = [
 ];
 
 for (let i = 0; i < folders.length; i++) {
-    IO.createDirectory(folders[i], true);
+    IO.fs.createDirectory(folders[i], true);
 }
 ```
 
@@ -143,10 +143,10 @@ for (let i = 0; i < folders.length; i++) {
 
 ```typescript
 // List files with different filters
-const allFiles = IO.listFiles("data");
-const txtFiles = IO.listFiles("data", /\.txt$/);
-const recentFiles = IO.listFiles("data", function (file) {
-    const modified = IO.getFileModifiedDate(file);
+const allFiles = IO.fs.listFiles("data");
+const txtFiles = IO.fs.listFiles("data", /\.txt$/);
+const recentFiles = IO.fs.listFiles("data", function (file) {
+    const modified = IO.fs.getFileModifiedDate(file);
     if (!modified) return false;
     const daysDiff =
         (new Date().getTime() - modified.getTime()) / (1000 * 60 * 60 * 24);
@@ -160,18 +160,18 @@ const recentFiles = IO.listFiles("data", function (file) {
 
 ```typescript
 // Get script location
-const scriptFile = IO.getCurrentScriptFile();
+const scriptFile = IO.fs.getCurrentScriptFile();
 const scriptDir = scriptFile.parent.fsName;
 
 // Resolve paths relative to script
-const dataPath = IO.resolvePath("data/input.txt", scriptDir);
-const outputPath = IO.resolvePath("output/result.txt", scriptDir);
+const dataPath = IO.path.resolvePath("data/input.txt", scriptDir);
+const outputPath = IO.path.resolvePath("output/result.txt", scriptDir);
 
 // Process files
-if (IO.fileExists(dataPath)) {
-    const data = IO.readFile(dataPath);
+if (IO.fs.fileExists(dataPath)) {
+    const data = IO.fs.readFile(dataPath);
     const processed = processData(data);
-    IO.writeFile(outputPath, processed);
+    IO.fs.writeFile(outputPath, processed);
 }
 ```
 
@@ -181,21 +181,21 @@ if (IO.fileExists(dataPath)) {
 
 ```typescript
 // Let user select files
-const selectedFiles = IO.openFileDialog(
+const selectedFiles = IO.fs.openFileDialog(
     "Select text files to process",
     function (file) {
-        return IO.getFileExtension(file) === "txt";
+        return IO.path.getFileExtension(file) === "txt";
     }
 );
 
 // Process selected files
 for (let i = 0; i < selectedFiles.length; i++) {
     const file = selectedFiles[i];
-    const content = IO.readFile(file);
+    const content = IO.fs.readFile(file);
     if (content) {
         const processed = processContent(content);
-        const outputName = IO.getFileName(file) + "_processed.txt";
-        IO.writeFile(outputName, processed);
+        const outputName = IO.path.getFileName(file) + "_processed.txt";
+        IO.fs.writeFile(outputName, processed);
     }
 }
 ```
@@ -204,14 +204,14 @@ for (let i = 0; i < selectedFiles.length; i++) {
 
 ```typescript
 // Let user select output folder
-const outputFolder = IO.openFolderDialog("Select output folder");
+const outputFolder = IO.fs.openFolderDialog("Select output folder");
 if (outputFolder) {
     // Generate reports in selected folder
     const reports = generateReports();
     for (let i = 0; i < reports.length; i++) {
         const report = reports[i];
         const filePath = outputFolder.fsName + "/" + report.name + ".txt";
-        IO.writeFile(filePath, report.content);
+        IO.fs.writeFile(filePath, report.content);
     }
 }
 ```
@@ -224,19 +224,19 @@ if (outputFolder) {
 function safeFileOperation() {
     try {
         // Attempt file operations
-        if (!IO.fileExists("input.txt")) {
+        if (!IO.fs.fileExists("input.txt")) {
             alert("Input file not found");
             return false;
         }
 
-        const content = IO.readFile("input.txt");
+        const content = IO.fs.readFile("input.txt");
         if (!content) {
             alert("Could not read input file");
             return false;
         }
 
         const processed = processContent(content);
-        if (!IO.writeFile("output.txt", processed)) {
+        if (!IO.fs.writeFile("output.txt", processed)) {
             alert("Could not write output file");
             return false;
         }
@@ -256,7 +256,7 @@ function safeFileOperation() {
 ```typescript
 function createLogger(logDir) {
     // Ensure log directory exists
-    IO.createDirectory(logDir, true);
+    IO.fs.createDirectory(logDir, true);
 
     return {
         log: function (message) {
@@ -272,8 +272,8 @@ function createLogger(logDir) {
             const logEntry = timestamp + ": " + message + "\n";
 
             // Append to log file
-            const existing = IO.readFile(logFile) || "";
-            IO.writeFile(logFile, existing + logEntry);
+            const existing = IO.fs.readFile(logFile) || "";
+            IO.fs.writeFile(logFile, existing + logEntry);
         },
     };
 }
@@ -287,19 +287,19 @@ logger.log("Application started");
 
 ```typescript
 function syncFolders(sourceFolder, targetFolder) {
-    const sourceFiles = IO.listFiles(sourceFolder);
+    const sourceFiles = IO.fs.listFiles(sourceFolder);
 
     for (let i = 0; i < sourceFiles.length; i++) {
         const sourceFile = sourceFiles[i];
         const targetPath = targetFolder + "/" + sourceFile.name;
 
-        if (!IO.fileExists(targetPath)) {
+        if (!IO.fs.fileExists(targetPath)) {
             // File doesn't exist in target, copy it
-            IO.copyFile(sourceFile.fsName, targetPath);
+            IO.fs.copyFile(sourceFile.fsName, targetPath);
         } else {
             // Check if source is newer
-            const sourceModified = IO.getFileModifiedDate(sourceFile);
-            const targetModified = IO.getFileModifiedDate(targetPath);
+            const sourceModified = IO.fs.getFileModifiedDate(sourceFile);
+            const targetModified = IO.fs.getFileModifiedDate(targetPath);
 
             if (
                 sourceModified &&
@@ -307,7 +307,7 @@ function syncFolders(sourceFolder, targetFolder) {
                 sourceModified.getTime() > targetModified.getTime()
             ) {
                 // Source is newer, update target
-                IO.copyFile(sourceFile.fsName, targetPath, true);
+                IO.fs.copyFile(sourceFile.fsName, targetPath, true);
             }
         }
     }
