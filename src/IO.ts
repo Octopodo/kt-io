@@ -206,6 +206,20 @@ export class IO {
         const resolved = new File(base.fsName + "/" + relativePath);
         return resolved.fsName.replace(/\\/g, "/");
     }
+
+    static joinPath(...paths: string[]): string {
+        if (paths.length === 0) return "";
+        let fullPath = paths[0];
+        for (let i = 1; i < paths.length; i++) {
+            const p = paths[i];
+            if (p) {
+                fullPath =
+                    fullPath.replace(/\/+$/, "") + "/" + p.replace(/^\/+/, "");
+            }
+        }
+        return fullPath;
+    }
+
     static writeJson(fileOrPath: string | File, data: any): boolean {
         try {
             const json = JSON.stringify(data);
