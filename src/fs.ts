@@ -138,6 +138,26 @@ export class KtFs {
         }
     }
 
+    static removeDirectory(path: string, recursive?: boolean): boolean {
+        const folder = new Folder(path);
+        if (!folder.exists) return false;
+        try {
+            if (recursive) {
+                const files = folder.getFiles();
+                for (const file of files) {
+                    if (file instanceof File) {
+                        KtFs.deleteFile(file);
+                    } else if (file instanceof Folder) {
+                        KtFs.removeDirectory(file.fsName, recursive);
+                    }
+                }
+            }
+            return folder.remove();
+        } catch (e) {
+            return false;
+        }
+    }
+
     static listFiles(
         folderPath: string | Folder,
         filter?: RegExp | Function

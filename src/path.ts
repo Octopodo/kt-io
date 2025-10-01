@@ -15,7 +15,7 @@ export class KtPath {
         return fileName.replace(new RegExp("\\.[^/.]+$"), "");
     }
 
-    static resolvePath(relativePath: string, basePath?: string): string {
+    static resolve(relativePath: string, basePath?: string): string {
         const base = basePath
             ? new Folder(basePath)
             : new File($.fileName).parent; //Same as KtFs.getCurrentScriptFile()
@@ -23,7 +23,7 @@ export class KtPath {
         return resolved.fsName.replace(/\\/g, "/");
     }
 
-    static joinPath(...paths: string[]): string {
+    static join(...paths: string[]): string {
         if (paths.length === 0) return "";
         let fullPath = paths[0];
         for (let i = 1; i < paths.length; i++) {

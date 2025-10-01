@@ -1,3 +1,6 @@
-import { IO, ktFs, ktPath } from "./IO";
+import { IO } from "./IO";
+import { KtPath } from "./path";
+import { KtFs } from "./fs";
+import { KtIoUtils } from "./utils";
 
-export { IO, ktFs, ktPath };
+export { IO, KtPath, KtFs, KtIoUtils };
