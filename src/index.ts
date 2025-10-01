@@ -1,3 +1,3 @@
-import { IO } from "./IO";
+import { IO, ktFs, ktPath } from "./IO";
 
-export { IO };
+export { IO, ktFs, ktPath };
