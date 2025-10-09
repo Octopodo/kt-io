@@ -13,19 +13,22 @@ export class KtPath {
         if (typeof folder === "string") {
             folder = new Folder(folder);
         }
-        if (!folder.exists) {
-            return "";
-        }
         return folder.name;
     }
 
-    static getFileExtension(file: File): string {
+    static getFileExtension(file: File | string): string {
+        if (typeof file === "string") {
+            file = new File(file);
+        }
         const fileName = file.name;
         const match = fileName.match(new RegExp("\\.([^.]+)$"));
         return match ? match[1] : "";
     }
 
-    static stripFileExtension(file: File): string {
+    static stripFileExtension(file: File | string): string {
+        if (typeof file === "string") {
+            file = new File(file);
+        }
         const fileName = file.name;
         return fileName.replace(new RegExp("\\.[^/.]+$"), "");
     }
