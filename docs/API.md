@@ -12,6 +12,7 @@ Here you can find a reference to all existing methods in the IO module, organize
 - [stripFileExtension](#stripfileextension)
 - [resolve](#resolve)
 - [join](#join)
+- [sanitize](#sanitize)
 
 ### IO.fs (File System Operations)
 
@@ -154,6 +155,34 @@ Joins multiple path segments into a single path.
 ```typescript
 const path = IO.path.join("folder", "subfolder", "file.txt");
 // Result: "folder/subfolder/file.txt"
+```
+
+### `sanitize`
+
+Normalizes path separators and removes duplicate slashes.
+
+**Arguments:**
+
+| Parameter | Description           |
+| --------- | --------------------- |
+| `path`    | The path to sanitize. |
+
+**Returns:** `string` - The sanitized path with normalized separators.
+
+**Examples:**
+
+```typescript
+// Convert backslashes to forward slashes
+const cleanPath = IO.path.sanitize("folder\\subfolder\\file.txt");
+// Result: "folder/subfolder/file.txt"
+
+// Remove duplicate slashes
+const normalizedPath = IO.path.sanitize("folder//subfolder///file.txt");
+// Result: "folder/subfolder/file.txt"
+
+// Handle mixed backslashes and forward slashes
+const mixedPath = IO.path.sanitize("my/path/with\\mixed\\slashes\\/file.txt");
+// Result: "my/path/with/mixed/slashes/file.txt"
 ```
 
 ## File System Operations (IO.fs)
