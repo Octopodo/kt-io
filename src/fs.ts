@@ -3,6 +3,10 @@ export class KtFs {
         return new File(filePath).exists;
     }
 
+    static folderExists(folderPath: string): boolean {
+        return new Folder(folderPath).exists;
+    }
+
     static readFile(fileOrPath: string | File): string | null {
         const file =
             fileOrPath instanceof File ? fileOrPath : new File(fileOrPath);
