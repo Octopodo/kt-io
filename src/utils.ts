@@ -1,14 +1,6 @@
 import { KtPath } from "./path";
 import { KtFs } from "./fs";
 export class KtIoUtils {
-    static createFolderTree(tree: object | string, rootPath: string): void {
-        if (typeof tree === "string") {
-            tree = JSON.parse(tree);
-        }
-
-        this._createFoldersRecursive(tree as any, rootPath);
-    }
-
     static scanFolderTree(folderPath: string): any {
         const folder = new Folder(folderPath);
         if (!folder.exists) {
@@ -45,10 +37,19 @@ export class KtIoUtils {
         return result;
     }
 
+    static createFolderTree(tree: object | string, rootPath: string): any {
+        if (typeof tree === "string") {
+            tree = JSON.parse(tree);
+        }
+
+        return this._createFoldersRecursive(tree as any, rootPath);
+    }
+
     private static _createFoldersRecursive(
         tree: any,
-        currentPath: string
-    ): void {
+        currentPath: string,
+        outTree: any = {}
+    ): any {
         for (const key in tree) {
             if (tree.hasOwnProperty(key)) {
                 const fullPath = KtPath.join(currentPath, key);
@@ -56,7 +57,7 @@ export class KtIoUtils {
 
                 // Create the directory
                 KtFs.createDirectory(fullPath, true);
-
+                outTree[key] = { path: fullPath };
                 // If the value is an object with properties, recurse
                 if (typeof value === "object" && value !== null) {
                     let hasKeys = false;
@@ -67,10 +68,15 @@ export class KtIoUtils {
                         }
                     }
                     if (hasKeys) {
-                        this._createFoldersRecursive(value, fullPath);
+                        this._createFoldersRecursive(
+                            value,
+                            fullPath,
+                            outTree[key]
+                        );
                     }
                 }
             }
         }
+        return outTree;
     }
 }
