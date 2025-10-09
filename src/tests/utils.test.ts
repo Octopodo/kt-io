@@ -86,5 +86,44 @@ describe("IO Utils Tests", () => {
 
             expect(IO.fs.fileExists(tempDir + "/empty")).toBe(true);
         });
+
+        it("should return the created folder structure object", () => {
+            const structure = {
+                src: {
+                    main: {},
+                    test: {},
+                },
+                docs: {},
+            };
+
+            const result = IO.utils.createFolderTree(structure, tempDir);
+
+            // Verify the returned object structure
+            expect(result).toBeDefined();
+            expect(result.src).toBeDefined();
+            expect(result.src.path).toBe(IO.path.join(tempDir, "src"));
+            expect(result.src.main).toBeDefined();
+            expect(result.src.main.path).toBe(
+                IO.path.join(tempDir, "src/main")
+            );
+            expect(result.src.test).toBeDefined();
+            expect(result.src.test.path).toBe(
+                IO.path.join(tempDir, "src/test")
+            );
+            expect(result.docs).toBeDefined();
+            expect(result.docs.path).toBe(IO.path.join(tempDir, "docs"));
+        });
+
+        it("should return correct structure for simple folders", () => {
+            const structure = {
+                folder1: {},
+                folder2: {},
+            };
+
+            const result = IO.utils.createFolderTree(structure, tempDir);
+
+            expect(result.folder1.path).toBe(IO.path.join(tempDir, "folder1"));
+            expect(result.folder2.path).toBe(IO.path.join(tempDir, "folder2"));
+        });
     });
 });
