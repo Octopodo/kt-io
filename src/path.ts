@@ -1,10 +1,9 @@
+import { ktPath } from "./IO";
+
 export class KtPath {
     static getFileName(file: File | string): string {
         if (typeof file === "string") {
             file = new File(file);
-        }
-        if (!file.exists) {
-            return "";
         }
         const fileName = file.name;
         return fileName.replace(new RegExp("\\.[^/.]+$"), "");
@@ -42,13 +41,17 @@ export class KtPath {
     static join(...paths: string[]): string {
         if (paths.length === 0) return "";
         let fullPath = paths[0];
+
         for (let i = 1; i < paths.length; i++) {
             const p = paths[i];
             if (p) {
-                fullPath =
-                    fullPath.replace(/\/+$/, "") + "/" + p.replace(/^\/+/, "");
+                fullPath = ktPath.sanitize(fullPath) + "/" + ktPath.sanitize(p);
             }
         }
-        return fullPath;
+        return ktPath.sanitize(fullPath);
+    }
+
+    static sanitize(path: string): string {
+        return path.replace(/\\/g, "/").replace(/\/+/g, "/");
     }
 }
