@@ -492,7 +492,7 @@ Creates a folder structure based on an object or JSON representation.
 | `tree`     | Object or JSON string representing folder structure |
 | `rootPath` | Root path where the structure will be created       |
 
-**Returns:** `void`
+**Returns:** `any` - Object representing the created folder structure with paths.
 
 **Examples:**
 
