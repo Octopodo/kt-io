@@ -109,4 +109,52 @@ describe("IO.path Tests", () => {
             expect(joined).toBe(basePath + "subdir/file.txt");
         });
     });
+
+    describe("sanitize", () => {
+        it("should convert backslashes to forward slashes", () => {
+            const result = IO.path.sanitize("folder\\subfolder\\file.txt");
+            expect(result).toBe("folder/subfolder/file.txt");
+        });
+
+        it("should remove duplicate forward slashes", () => {
+            const result = IO.path.sanitize("folder//subfolder///file.txt");
+            expect(result).toBe("folder/subfolder/file.txt");
+        });
+
+        it("should handle mixed backslashes and forward slashes", () => {
+            const result = IO.path.sanitize(
+                "my/path/with\\mixed\\slashes\\/file.txt"
+            );
+            expect(result).toBe("my/path/with/mixed/slashes/file.txt");
+        });
+
+        it("should handle complex mixed slashes patterns", () => {
+            const result = IO.path.sanitize(
+                "path\\to//folder\\\\with\\/mixed///separators\\file"
+            );
+            expect(result).toBe("path/to/folder/with/mixed/separators/file");
+        });
+
+        it("should handle multiple consecutive slashes of mixed types", () => {
+            const result = IO.path.sanitize(
+                "folder\\\\//subfolder///\\file.txt"
+            );
+            expect(result).toBe("folder/subfolder/file.txt");
+        });
+
+        it("should preserve single slashes", () => {
+            const result = IO.path.sanitize("folder/subfolder/file.txt");
+            expect(result).toBe("folder/subfolder/file.txt");
+        });
+
+        it("should handle empty string", () => {
+            const result = IO.path.sanitize("");
+            expect(result).toBe("");
+        });
+
+        it("should handle string with only slashes", () => {
+            const result = IO.path.sanitize("///\\\\//");
+            expect(result).toBe("/");
+        });
+    });
 });
