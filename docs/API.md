@@ -43,9 +43,9 @@ Returns the filename without extension.
 
 **Arguments:**
 
-| Parameter | Description      |
-| --------- | ---------------- |
-| `file`    | The file object. |
+| Parameter | Type             | Description                     |
+| --------- | ---------------- | ------------------------------- |
+| `file`    | `File \| string` | The file object or path string. |
 
 **Returns:** `string` - The filename without extension.
 
@@ -54,6 +54,9 @@ Returns the filename without extension.
 ```typescript
 const file = new File("path/to/document.txt");
 const name = IO.path.getFileName(file); // 'document'
+
+// Also accepts string paths
+const name2 = IO.path.getFileName("path/to/document.txt"); // 'document'
 ```
 
 ### `getFolderName`
@@ -62,11 +65,11 @@ Returns the folder name.
 
 **Arguments:**
 
-| Parameter | Description                       |
-| --------- | --------------------------------- |
-| `folder`  | The folder object or path string. |
+| Parameter | Type               | Description                       |
+| --------- | ------------------ | --------------------------------- |
+| `folder`  | `Folder \| string` | The folder object or path string. |
 
-**Returns:** `string` - The folder name, or empty string if the folder doesn't exist.
+**Returns:** `string` - The folder name.
 
 **Examples:**
 
@@ -83,9 +86,9 @@ Returns the file extension.
 
 **Arguments:**
 
-| Parameter | Description      |
-| --------- | ---------------- |
-| `file`    | The file object. |
+| Parameter | Type             | Description                     |
+| --------- | ---------------- | ------------------------------- |
+| `file`    | `File \| string` | The file object or path string. |
 
 **Returns:** `string` - The file extension (without the dot), or empty string if no extension.
 
@@ -94,6 +97,9 @@ Returns the file extension.
 ```typescript
 const file = new File("path/to/document.txt");
 const ext = IO.path.getFileExtension(file); // 'txt'
+
+// Also accepts string paths
+const ext2 = IO.path.getFileExtension("path/to/document.txt"); // 'txt'
 ```
 
 ### `stripFileExtension`
@@ -102,9 +108,9 @@ Alias for `getFileName`, returns filename without extension.
 
 **Arguments:**
 
-| Parameter | Description      |
-| --------- | ---------------- |
-| `file`    | The file object. |
+| Parameter | Type             | Description                     |
+| --------- | ---------------- | ------------------------------- |
+| `file`    | `File \| string` | The file object or path string. |
 
 **Returns:** `string` - The filename without extension.
 
@@ -113,6 +119,9 @@ Alias for `getFileName`, returns filename without extension.
 ```typescript
 const file = new File("path/to/document.txt");
 const name = IO.path.stripFileExtension(file); // 'document'
+
+// Also accepts string paths
+const name2 = IO.path.stripFileExtension("path/to/document.txt"); // 'document'
 ```
 
 ### `resolve`
@@ -121,10 +130,10 @@ Resolves a relative path to an absolute path based on the current script's direc
 
 **Arguments:**
 
-| Parameter      | Description                                       |
-| -------------- | ------------------------------------------------- |
-| `relativePath` | The relative path to resolve.                     |
-| `basePath?`    | Optional base path. Defaults to script directory. |
+| Parameter      | Type     | Description                                       |
+| -------------- | -------- | ------------------------------------------------- |
+| `relativePath` | `string` | The relative path to resolve.                     |
+| `basePath?`    | `string` | Optional base path. Defaults to script directory. |
 
 **Returns:** `string` - The absolute resolved path.
 
@@ -144,9 +153,9 @@ Joins multiple path segments into a single path.
 
 **Arguments:**
 
-| Parameter  | Description            |
-| ---------- | ---------------------- |
-| `...paths` | Path segments to join. |
+| Parameter  | Type       | Description            |
+| ---------- | ---------- | ---------------------- |
+| `...paths` | `string[]` | Path segments to join. |
 
 **Returns:** `string` - The joined path with normalized separators.
 
@@ -163,9 +172,9 @@ Normalizes path separators and removes duplicate slashes.
 
 **Arguments:**
 
-| Parameter | Description           |
-| --------- | --------------------- |
-| `path`    | The path to sanitize. |
+| Parameter | Type     | Description           |
+| --------- | -------- | --------------------- |
+| `path`    | `string` | The path to sanitize. |
 
 **Returns:** `string` - The sanitized path with normalized separators.
 
@@ -193,9 +202,9 @@ Checks if a file exists at the given path.
 
 **Arguments:**
 
-| Parameter  | Description           |
-| ---------- | --------------------- |
-| `filePath` | The path to the file. |
+| Parameter  | Type     | Description           |
+| ---------- | -------- | --------------------- |
+| `filePath` | `string` | The path to the file. |
 
 **Returns:** `boolean` - True if the file exists, false otherwise.
 
@@ -212,9 +221,9 @@ Checks if a folder exists at the given path.
 
 **Arguments:**
 
-| Parameter    | Description             |
-| ------------ | ----------------------- |
-| `folderPath` | The path to the folder. |
+| Parameter    | Type     | Description             |
+| ------------ | -------- | ----------------------- |
+| `folderPath` | `string` | The path to the folder. |
 
 **Returns:** `boolean` - True if the folder exists, false otherwise.
 
@@ -231,9 +240,9 @@ Reads the content of a file.
 
 **Arguments:**
 
-| Parameter    | Description                   |
-| ------------ | ----------------------------- |
-| `fileOrPath` | The file path or File object. |
+| Parameter    | Type             | Description                   |
+| ------------ | ---------------- | ----------------------------- |
+| `fileOrPath` | `string \| File` | The file path or File object. |
 
 **Returns:** `string | null` - The file content as a string, or null if the file doesn't exist or can't be read.
 
@@ -252,11 +261,11 @@ Writes content to a file.
 
 **Arguments:**
 
-| Parameter    | Description                      |
-| ------------ | -------------------------------- |
-| `fileOrPath` | The file path or File object.    |
-| `content`    | The content to write.            |
-| `encoding`   | The encoding (default: 'UTF-8'). |
+| Parameter    | Type             | Description                      |
+| ------------ | ---------------- | -------------------------------- |
+| `fileOrPath` | `string \| File` | The file path or File object.    |
+| `content`    | `string`         | The content to write.            |
+| `encoding`   | `string`         | The encoding (default: 'UTF-8'). |
 
 **Returns:** `boolean` - True if the file was written successfully, false otherwise.
 
@@ -275,11 +284,11 @@ Copies a file from source to destination.
 
 **Arguments:**
 
-| Parameter    | Description                                                  |
-| ------------ | ------------------------------------------------------------ |
-| `sourcePath` | Source file.                                                 |
-| `destPath`   | Destination file.                                            |
-| `overwrite`  | Whether to overwrite if destination exists (default: false). |
+| Parameter    | Type             | Description                                                  |
+| ------------ | ---------------- | ------------------------------------------------------------ |
+| `sourcePath` | `string \| File` | Source file.                                                 |
+| `destPath`   | `string \| File` | Destination file.                                            |
+| `overwrite`  | `boolean`        | Whether to overwrite if destination exists (default: false). |
 
 **Returns:** `boolean` - True if the file was copied successfully, false otherwise.
 
@@ -296,11 +305,11 @@ Moves (renames) a file.
 
 **Arguments:**
 
-| Parameter    | Description                                                  |
-| ------------ | ------------------------------------------------------------ |
-| `sourcePath` | Source file.                                                 |
-| `destPath`   | Destination file.                                            |
-| `overwrite`  | Whether to overwrite if destination exists (default: false). |
+| Parameter    | Type             | Description                                                  |
+| ------------ | ---------------- | ------------------------------------------------------------ |
+| `sourcePath` | `string \| File` | Source file.                                                 |
+| `destPath`   | `string \| File` | Destination file.                                            |
+| `overwrite`  | `boolean`        | Whether to overwrite if destination exists (default: false). |
 
 **Returns:** `boolean` - True if the file was moved successfully, false otherwise.
 
@@ -317,9 +326,9 @@ Deletes a file.
 
 **Arguments:**
 
-| Parameter    | Description         |
-| ------------ | ------------------- |
-| `fileOrPath` | The file to delete. |
+| Parameter    | Type             | Description         |
+| ------------ | ---------------- | ------------------- |
+| `fileOrPath` | `string \| File` | The file to delete. |
 
 **Returns:** `boolean` - True if the file was deleted successfully, false otherwise.
 
@@ -337,10 +346,10 @@ Creates a directory.
 
 **Arguments:**
 
-| Parameter   | Description                                            |
-| ----------- | ------------------------------------------------------ |
-| `path`      | The directory path.                                    |
-| `recursive` | Whether to create parent directories (default: false). |
+| Parameter   | Type      | Description                                            |
+| ----------- | --------- | ------------------------------------------------------ |
+| `path`      | `string`  | The directory path.                                    |
+| `recursive` | `boolean` | Whether to create parent directories (default: false). |
 
 **Returns:** `boolean` - True if the directory was created successfully, false otherwise.
 
@@ -357,10 +366,10 @@ Lists files in a directory, optionally filtered.
 
 **Arguments:**
 
-| Parameter    | Description                            |
-| ------------ | -------------------------------------- |
-| `folderPath` | The directory.                         |
-| `filter`     | Filter for files (RegExp or Function). |
+| Parameter    | Type                              | Description                            |
+| ------------ | --------------------------------- | -------------------------------------- |
+| `folderPath` | `string`                          | The directory.                         |
+| `filter`     | `RegExp \| Function \| undefined` | Filter for files (RegExp or Function). |
 
 **Returns:** `Array<File>` - Array of File objects matching the criteria.
 
@@ -383,9 +392,9 @@ Gets the file size in bytes.
 
 **Arguments:**
 
-| Parameter    | Description |
-| ------------ | ----------- |
-| `fileOrPath` | The file.   |
+| Parameter    | Type             | Description |
+| ------------ | ---------------- | ----------- |
+| `fileOrPath` | `string \| File` | The file.   |
 
 **Returns:** `number | null` - The file size in bytes, or null if the file doesn't exist.
 
@@ -401,9 +410,9 @@ Gets the last modified date.
 
 **Arguments:**
 
-| Parameter    | Description |
-| ------------ | ----------- |
-| `fileOrPath` | The file.   |
+| Parameter    | Type             | Description |
+| ------------ | ---------------- | ----------- |
+| `fileOrPath` | `string \| File` | The file.   |
 
 **Returns:** `Date | null` - The last modified date, or null if the file doesn't exist.
 
@@ -421,10 +430,10 @@ Writes data as JSON to a file.
 
 **Arguments:**
 
-| Parameter    | Description            |
-| ------------ | ---------------------- |
-| `fileOrPath` | The file.              |
-| `data`       | The data to serialize. |
+| Parameter    | Type             | Description            |
+| ------------ | ---------------- | ---------------------- |
+| `fileOrPath` | `string \| File` | The file.              |
+| `data`       | `any`            | The data to serialize. |
 
 **Returns:** `boolean` - True if the JSON was written successfully, false otherwise.
 
@@ -441,9 +450,9 @@ Reads JSON from a file.
 
 **Arguments:**
 
-| Parameter    | Description |
-| ------------ | ----------- |
-| `fileOrPath` | The file.   |
+| Parameter    | Type             | Description |
+| ------------ | ---------------- | ----------- |
+| `fileOrPath` | `string \| File` | The file.   |
 
 **Returns:** `any | null` - The parsed JSON data, or null if the file doesn't exist or JSON is invalid.
 
@@ -464,12 +473,12 @@ Opens a file selection dialog.
 
 **Arguments:**
 
-| Parameter     | Description               |
-| ------------- | ------------------------- |
-| `prompt`      | Dialog prompt.            |
-| `fileChecker` | Function to filter files. |
+| Parameter     | Type                    | Description               |
+| ------------- | ----------------------- | ------------------------- |
+| `prompt`      | `string`                | Dialog prompt.            |
+| `fileChecker` | `Function \| undefined` | Function to filter files. |
 
-**Examples:**
+**Returns:** `Array<File>` - Array of selected files.
 
 ```typescript
 const files = IO.fs.openFileDialog("Select files");
@@ -485,11 +494,11 @@ Opens a folder selection dialog.
 
 **Arguments:**
 
-| Parameter | Description    |
-| --------- | -------------- |
-| `prompt`  | Dialog prompt. |
+| Parameter | Type     | Description    |
+| --------- | -------- | -------------- |
+| `prompt`  | `string` | Dialog prompt. |
 
-**Examples:**
+**Returns:** `Folder | null` - The selected folder or null if cancelled.
 
 ```typescript
 const folder = IO.openFolderDialog("Select folder");
@@ -516,10 +525,10 @@ Creates a folder structure based on an object or JSON representation.
 
 **Arguments:**
 
-| Parameter  | Description                                         |
-| ---------- | --------------------------------------------------- |
-| `tree`     | Object or JSON string representing folder structure |
-| `rootPath` | Root path where the structure will be created       |
+| Parameter  | Type     | Description                                         |
+| ---------- | -------- | --------------------------------------------------- |
+| `tree`     | `any`    | Object or JSON string representing folder structure |
+| `rootPath` | `string` | Root path where the structure will be created       |
 
 **Returns:** `any` - Object representing the created folder structure with paths.
 
@@ -554,9 +563,9 @@ Scans a folder structure and returns a JSON representation of the hierarchy.
 
 **Arguments:**
 
-| Parameter    | Description                |
-| ------------ | -------------------------- |
-| `folderPath` | Path to the folder to scan |
+| Parameter    | Type     | Description                |
+| ------------ | -------- | -------------------------- |
+| `folderPath` | `string` | Path to the folder to scan |
 
 **Returns:** `any` - Object representing the folder structure with files and subfolders.
 
