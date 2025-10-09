@@ -7,6 +7,7 @@ Here you can find a reference to all existing methods in the IO module, organize
 ### IO.path (Path Utilities)
 
 - [getFileName](#getfilename)
+- [getFolderName](#getfoldername)
 - [getFileExtension](#getfileextension)
 - [stripFileExtension](#stripfileextension)
 - [resolve](#resolve)
@@ -15,6 +16,7 @@ Here you can find a reference to all existing methods in the IO module, organize
 ### IO.fs (File System Operations)
 
 - [fileExists](#fileexists)
+- [folderExists](#folderexists)
 - [readFile](#readfile)
 - [writeFile](#writefile)
 - [copyFile](#copyfile)
@@ -51,6 +53,27 @@ Returns the filename without extension.
 ```typescript
 const file = new File("path/to/document.txt");
 const name = IO.path.getFileName(file); // 'document'
+```
+
+### `getFolderName`
+
+Returns the folder name.
+
+**Arguments:**
+
+| Parameter | Description                       |
+| --------- | --------------------------------- |
+| `folder`  | The folder object or path string. |
+
+**Returns:** `string` - The folder name, or empty string if the folder doesn't exist.
+
+**Examples:**
+
+```typescript
+const folder = new Folder("path/to/myfolder");
+const name = IO.path.getFolderName(folder); // 'myfolder'
+
+const name2 = IO.path.getFolderName("path/to/myfolder"); // 'myfolder'
 ```
 
 ### `getFileExtension`
@@ -152,6 +175,25 @@ Checks if a file exists at the given path.
 ```typescript
 expect(IO.fs.fileExists("data.txt")).toBe(true);
 expect(IO.fs.fileExists("nonexistent.txt")).toBe(false);
+```
+
+### `folderExists`
+
+Checks if a folder exists at the given path.
+
+**Arguments:**
+
+| Parameter    | Description             |
+| ------------ | ----------------------- |
+| `folderPath` | The path to the folder. |
+
+**Returns:** `boolean` - True if the folder exists, false otherwise.
+
+**Examples:**
+
+```typescript
+expect(IO.fs.folderExists("myfolder")).toBe(true);
+expect(IO.fs.folderExists("nonexistent")).toBe(false);
 ```
 
 ### `readFile`
