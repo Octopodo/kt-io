@@ -1,7 +1,23 @@
 export class KtPath {
-    static getFileName(file: File): string {
+    static getFileName(file: File | string): string {
+        if (typeof file === "string") {
+            file = new File(file);
+        }
+        if (!file.exists) {
+            return "";
+        }
         const fileName = file.name;
         return fileName.replace(new RegExp("\\.[^/.]+$"), "");
+    }
+
+    static getFolderName(folder: Folder | string): string {
+        if (typeof folder === "string") {
+            folder = new Folder(folder);
+        }
+        if (!folder.exists) {
+            return "";
+        }
+        return folder.name;
     }
 
     static getFileExtension(file: File): string {
