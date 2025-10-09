@@ -1,25 +1,25 @@
 {
-  "name": "kt-io",
-  "version": "1.0.0",
-  "description": "File importing operations with extendscript",
-  "author": "Miguel de Mendoza",
-  "main": "src/index.ts",
-  "license": "MIT",
-  "scripts": {
-    "build": "kt-build",
-    "build-tests": "kt-build build-tests",
-    "debug-build-tests": "kt-build debug-build-tests"
-  },
-  "files": [
-    "src",
-    "tsconfig.json"
-  ],
-  "dependencies": {
-    "kt-core": "*"
-  },
-  "devDependencies": {
-    "kt-extendscript-builder": "*",
-    "kt-testing-suite-core": "*",
-    "prettier": "^3.6.2"
-  }
+    "name": "kt-io",
+    "version": "1.0.1",
+    "description": "File importing operations with extendscript",
+    "author": "Miguel de Mendoza",
+    "main": "src/index.ts",
+    "license": "MIT",
+    "scripts": {
+        "build": "kt-build",
+        "build-tests": "kt-build build-tests",
+        "debug-build-tests": "kt-build debug-build-tests"
+    },
+    "files": [
+        "src",
+        "tsconfig.json"
+    ],
+    "dependencies": {
+        "kt-core": "*"
+    },
+    "devDependencies": {
+        "kt-extendscript-builder": "*",
+        "kt-testing-suite-core": "*",
+        "prettier": "^3.6.2"
+    }
 }
