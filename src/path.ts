@@ -1,6 +1,4 @@
-import { ktPath } from "./IO";
-
-export class KtPath {
+export class KT_Path {
     static getFileName(file: File | string): string {
         if (typeof file === "string") {
             file = new File(file);
@@ -48,10 +46,11 @@ export class KtPath {
         for (let i = 1; i < paths.length; i++) {
             const p = paths[i];
             if (p) {
-                fullPath = ktPath.sanitize(fullPath) + "/" + ktPath.sanitize(p);
+                fullPath =
+                    KT_Path.sanitize(fullPath) + "/" + KT_Path.sanitize(p);
             }
         }
-        return ktPath.sanitize(fullPath);
+        return KT_Path.sanitize(fullPath);
     }
 
     static sanitize(path: string): string {

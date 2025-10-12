@@ -1,4 +1,4 @@
-export class KtFs {
+export class KT_Fs {
     static fileExists(filePath: string): boolean {
         return new File(filePath).exists;
     }
@@ -133,7 +133,7 @@ export class KtFs {
                 // For recursive, create parent if needed
                 const parent = folder.parent;
                 if (parent && !parent.exists) {
-                    KtFs.createDirectory(parent.fsName, true);
+                    KT_Fs.createDirectory(parent.fsName, true);
                 }
             }
             return folder.create();
@@ -150,9 +150,9 @@ export class KtFs {
                 const files = folder.getFiles();
                 for (const file of files) {
                     if (file instanceof File) {
-                        KtFs.deleteFile(file);
+                        KT_Fs.deleteFile(file);
                     } else if (file instanceof Folder) {
-                        KtFs.removeDirectory(file.fsName, recursive);
+                        KT_Fs.removeDirectory(file.fsName, recursive);
                     }
                 }
             }
@@ -207,14 +207,14 @@ export class KtFs {
     static writeJson(fileOrPath: string | File, data: any): boolean {
         try {
             const json = JSON.stringify(data);
-            return KtFs.writeFile(fileOrPath, json);
+            return KT_Fs.writeFile(fileOrPath, json);
         } catch (e) {
             return false;
         }
     }
 
     static readJson(fileOrPath: string | File): any | null {
-        const content = KtFs.readFile(fileOrPath);
+        const content = KT_Fs.readFile(fileOrPath);
         if (!content) return null;
         try {
             return JSON.parse(content);

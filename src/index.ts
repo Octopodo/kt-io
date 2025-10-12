@@ -1,6 +1,6 @@
 import { IO } from "./IO";
-import { KtPath } from "./path";
-import { KtFs } from "./fs";
-import { KtIoUtils } from "./utils";
+import { KT_Path } from "./path";
+import { KT_Fs } from "./fs";
+import { KT_IoUtils } from "./utils";
 
-export { IO, KtPath, KtFs, KtIoUtils };
+export { IO, KT_Path, KT_Fs, KT_IoUtils };

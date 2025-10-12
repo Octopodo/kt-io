@@ -1,6 +1,6 @@
-import { KtPath } from "./path";
-import { KtFs } from "./fs";
-export class KtIoUtils {
+import { KT_Path } from "./path";
+import { KT_Fs } from "./fs";
+export class KT_IoUtils {
     static scanFolderTree(folderPath: string): any {
         const folder = new Folder(folderPath);
         if (!folder.exists) {
@@ -52,11 +52,11 @@ export class KtIoUtils {
     ): any {
         for (const key in tree) {
             if (tree.hasOwnProperty(key)) {
-                const fullPath = KtPath.join(currentPath, key);
+                const fullPath = KT_Path.join(currentPath, key);
                 const value = tree[key];
 
                 // Create the directory
-                KtFs.createDirectory(fullPath, true);
+                KT_Fs.createDirectory(fullPath, true);
                 outTree[key] = { path: fullPath };
                 // If the value is an object with properties, recurse
                 if (typeof value === "object" && value !== null) {
