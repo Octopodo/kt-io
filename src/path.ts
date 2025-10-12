@@ -56,4 +56,25 @@ export class KT_Path {
     static sanitize(path: string): string {
         return path.replace(/\\/g, "/").replace(/\/+/g, "/");
     }
+
+    static isValidExtension(
+        appExtensionDict: { [key: string]: Array<string> },
+        filePath: string | File,
+        category?: string
+    ): boolean {
+        const file =
+            typeof filePath === "string"
+                ? new File(KT_Path.sanitize(filePath))
+                : filePath;
+        const ext = KT_Path.getFileExtension(file.name).toLowerCase();
+        if (!ext) return false;
+
+        const types = appExtensionDict[ext];
+        if (!types) return false;
+        if (!category) return true;
+        for (var i = 0; i < types.length; i++) {
+            if (types[i] === category) return true;
+        }
+        return false;
+    }
 }
