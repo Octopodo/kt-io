@@ -1,6 +1,6 @@
 {
     "name": "kt-io",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "File importing operations with extendscript",
     "author": "Miguel de Mendoza",
     "main": "src/index.ts",
