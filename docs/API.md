@@ -557,15 +557,16 @@ const jsonStructure = '{"src":{},"docs":{},"tests":{}}';
 IO.utils.createFolderTree(jsonStructure, "/path/to/project");
 ```
 
-### `scanFolderTree`
+### `scanFolder`
 
 Scans a folder structure and returns a JSON representation of the hierarchy.
 
 **Arguments:**
 
-| Parameter    | Type     | Description                |
-| ------------ | -------- | -------------------------- |
-| `folderPath` | `string` | Path to the folder to scan |
+| Parameter    | Type      | Description                |
+| ------------ | --------- | -------------------------- |
+| `folderPath` | `string`  | Path to the folder to scan |
+| `deep`       | `boolean` | If true, scans subfolders  |
 
 **Returns:** `any` - Object representing the folder structure with files and subfolders.
 

@@ -9,11 +9,19 @@ type KTFileDescriptor = {
     extension: string | null;
 };
 
+type KTFolderDescriptor = {
+    type: "folder";
+    path: string;
+    contents: Record<string, KTFileDescriptor | KTFolderDescriptor> | null;
+};
+
+type KTScanResult = Record<string, KTFileDescriptor | KTFolderDescriptor>;
+
 export class KT_IoUtils {
-    static scanFolderTree(
+    static scanFolder(
         folderPath: string,
         deep: boolean = false
-    ): KTFileDescriptor | null {
+    ): KTScanResult | null {
         const folder = new Folder(folderPath);
         if (!folder.exists) {
             return null;
@@ -31,7 +39,7 @@ export class KT_IoUtils {
                     result[item.name] = {
                         type: "folder",
                         path: item.fsName,
-                        contents: this.scanFolderTree(item.fsName),
+                        contents: this.scanFolder(item.fsName),
                     };
                 } else {
                     result[item.name] = {

@@ -2,6 +2,6 @@ import { runTests } from "kt-testing-suite-core";
 
 // import "./path.test";
 // import "./fs.test";
-// import "./utils.test";
+// import "./createFolderTree.test";
 import "./extensionValidate.test";
 runTests();
