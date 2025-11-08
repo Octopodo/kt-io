@@ -33,7 +33,7 @@ Here you can find a reference to all existing methods in the IO module, organize
 ### IO.utils (High-level Utilities)
 
 - [createFolderTree](#createfoldertree)
-- [scanFolderTree](#scanfoldertree)
+- [scanFolder](#scanfolder)
 
 ## Path Utilities (IO.path)
 
@@ -43,9 +43,9 @@ Returns the filename without extension.
 
 **Arguments:**
 
-| Parameter | Type             | Description                     |
-| --------- | ---------------- | ------------------------------- |
-| `file`    | `File \| string` | The file object or path string. |
+| Parameter | Type             | Default | Description                     |
+| --------- | ---------------- | ------- | ------------------------------- |
+| `file`    | `File \| string` | -       | The file object or path string. |
 
 **Returns:** `string` - The filename without extension.
 
@@ -65,9 +65,9 @@ Returns the folder name.
 
 **Arguments:**
 
-| Parameter | Type               | Description                       |
-| --------- | ------------------ | --------------------------------- |
-| `folder`  | `Folder \| string` | The folder object or path string. |
+| Parameter | Type               | Default | Description                       |
+| --------- | ------------------ | ------- | --------------------------------- |
+| `folder`  | `Folder \| string` | -       | The folder object or path string. |
 
 **Returns:** `string` - The folder name.
 
@@ -86,9 +86,9 @@ Returns the file extension.
 
 **Arguments:**
 
-| Parameter | Type             | Description                     |
-| --------- | ---------------- | ------------------------------- |
-| `file`    | `File \| string` | The file object or path string. |
+| Parameter | Type             | Default | Description                     |
+| --------- | ---------------- | ------- | ------------------------------- |
+| `file`    | `File \| string` | -       | The file object or path string. |
 
 **Returns:** `string` - The file extension (without the dot), or empty string if no extension.
 
@@ -130,10 +130,10 @@ Resolves a relative path to an absolute path based on the current script's direc
 
 **Arguments:**
 
-| Parameter      | Type     | Description                                       |
-| -------------- | -------- | ------------------------------------------------- |
-| `relativePath` | `string` | The relative path to resolve.                     |
-| `basePath?`    | `string` | Optional base path. Defaults to script directory. |
+| Parameter      | Type     | Default          | Description                                       |
+| -------------- | -------- | ---------------- | ------------------------------------------------- |
+| `relativePath` | `string` | -                | The relative path to resolve.                     |
+| `basePath`     | `string` | Script directory | Optional base path. Defaults to script directory. |
 
 **Returns:** `string` - The absolute resolved path.
 
@@ -153,9 +153,9 @@ Joins multiple path segments into a single path.
 
 **Arguments:**
 
-| Parameter  | Type       | Description            |
-| ---------- | ---------- | ---------------------- |
-| `...paths` | `string[]` | Path segments to join. |
+| Parameter  | Type       | Default | Description            |
+| ---------- | ---------- | ------- | ---------------------- |
+| `...paths` | `string[]` | -       | Path segments to join. |
 
 **Returns:** `string` - The joined path with normalized separators.
 
@@ -172,9 +172,9 @@ Normalizes path separators and removes duplicate slashes.
 
 **Arguments:**
 
-| Parameter | Type     | Description           |
-| --------- | -------- | --------------------- |
-| `path`    | `string` | The path to sanitize. |
+| Parameter | Type     | Default | Description           |
+| --------- | -------- | ------- | --------------------- |
+| `path`    | `string` | -       | The path to sanitize. |
 
 **Returns:** `string` - The sanitized path with normalized separators.
 
@@ -202,9 +202,9 @@ Checks if a file exists at the given path.
 
 **Arguments:**
 
-| Parameter  | Type     | Description           |
-| ---------- | -------- | --------------------- |
-| `filePath` | `string` | The path to the file. |
+| Parameter  | Type     | Default | Description           |
+| ---------- | -------- | ------- | --------------------- |
+| `filePath` | `string` | -       | The path to the file. |
 
 **Returns:** `boolean` - True if the file exists, false otherwise.
 
@@ -261,11 +261,11 @@ Writes content to a file.
 
 **Arguments:**
 
-| Parameter    | Type             | Description                      |
-| ------------ | ---------------- | -------------------------------- |
-| `fileOrPath` | `string \| File` | The file path or File object.    |
-| `content`    | `string`         | The content to write.            |
-| `encoding`   | `string`         | The encoding (default: 'UTF-8'). |
+| Parameter    | Type             | Default   | Description                   |
+| ------------ | ---------------- | --------- | ----------------------------- |
+| `fileOrPath` | `string \| File` | -         | The file path or File object. |
+| `content`    | `string`         | -         | The content to write.         |
+| `encoding`   | `string`         | `'UTF-8'` | The encoding.                 |
 
 **Returns:** `boolean` - True if the file was written successfully, false otherwise.
 
@@ -284,11 +284,11 @@ Copies a file from source to destination.
 
 **Arguments:**
 
-| Parameter    | Type             | Description                                                  |
-| ------------ | ---------------- | ------------------------------------------------------------ |
-| `sourcePath` | `string \| File` | Source file.                                                 |
-| `destPath`   | `string \| File` | Destination file.                                            |
-| `overwrite`  | `boolean`        | Whether to overwrite if destination exists (default: false). |
+| Parameter    | Type             | Default | Description                                 |
+| ------------ | ---------------- | ------- | ------------------------------------------- |
+| `sourcePath` | `string \| File` | -       | Source file.                                |
+| `destPath`   | `string \| File` | -       | Destination file.                           |
+| `overwrite`  | `boolean`        | `false` | Whether to overwrite if destination exists. |
 
 **Returns:** `boolean` - True if the file was copied successfully, false otherwise.
 
@@ -305,11 +305,11 @@ Moves (renames) a file.
 
 **Arguments:**
 
-| Parameter    | Type             | Description                                                  |
-| ------------ | ---------------- | ------------------------------------------------------------ |
-| `sourcePath` | `string \| File` | Source file.                                                 |
-| `destPath`   | `string \| File` | Destination file.                                            |
-| `overwrite`  | `boolean`        | Whether to overwrite if destination exists (default: false). |
+| Parameter    | Type             | Default | Description                                 |
+| ------------ | ---------------- | ------- | ------------------------------------------- |
+| `sourcePath` | `string \| File` | -       | Source file.                                |
+| `destPath`   | `string \| File` | -       | Destination file.                           |
+| `overwrite`  | `boolean`        | `false` | Whether to overwrite if destination exists. |
 
 **Returns:** `boolean` - True if the file was moved successfully, false otherwise.
 
@@ -346,10 +346,10 @@ Creates a directory.
 
 **Arguments:**
 
-| Parameter   | Type      | Description                                            |
-| ----------- | --------- | ------------------------------------------------------ |
-| `path`      | `string`  | The directory path.                                    |
-| `recursive` | `boolean` | Whether to create parent directories (default: false). |
+| Parameter   | Type      | Default | Description                           |
+| ----------- | --------- | ------- | ------------------------------------- |
+| `path`      | `string`  | -       | The directory path.                   |
+| `recursive` | `boolean` | `false` | Whether to create parent directories. |
 
 **Returns:** `boolean` - True if the directory was created successfully, false otherwise.
 
@@ -366,10 +366,10 @@ Lists files in a directory, optionally filtered.
 
 **Arguments:**
 
-| Parameter    | Type                              | Description                            |
-| ------------ | --------------------------------- | -------------------------------------- |
-| `folderPath` | `string`                          | The directory.                         |
-| `filter`     | `RegExp \| Function \| undefined` | Filter for files (RegExp or Function). |
+| Parameter    | Type                              | Default | Description                            |
+| ------------ | --------------------------------- | ------- | -------------------------------------- |
+| `folderPath` | `string`                          | -       | The directory.                         |
+| `filter`     | `RegExp \| Function \| undefined` | -       | Filter for files (RegExp or Function). |
 
 **Returns:** `Array<File>` - Array of File objects matching the criteria.
 
@@ -559,37 +559,147 @@ IO.utils.createFolderTree(jsonStructure, "/path/to/project");
 
 ### `scanFolder`
 
-Scans a folder structure and returns a JSON representation of the hierarchy.
+Scans a folder and returns a `KT_FolderDescriptor` object representing the folder structure.
 
 **Arguments:**
 
-| Parameter    | Type      | Description                |
-| ------------ | --------- | -------------------------- |
-| `folderPath` | `string`  | Path to the folder to scan |
-| `deep`       | `boolean` | If true, scans subfolders  |
+| Parameter    | Type      | Default | Description                                                                |
+| ------------ | --------- | ------- | -------------------------------------------------------------------------- |
+| `folderPath` | `string`  | -       | Path to the folder to scan                                                 |
+| `deep`       | `boolean` | `false` | If `true`, recursively scans subfolders. If `false`, only scans top level. |
 
-**Returns:** `any` - Object representing the folder structure with files and subfolders.
+**Returns:** `KT_FolderDescriptor` - A descriptor object containing folder information and contents.
 
 **Examples:**
 
 ```typescript
-const structure = IO.utils.scanFolderTree("/path/to/project");
-console.log(JSON.stringify(structure, null, 2));
-// Output:
-// {
-//   "src": {
-//     "type": "folder",
-//     "path": "/path/to/project/src",
-//     "contents": {
-//       "index.ts": {
-//         "type": "file",
-//         "path": "/path/to/project/src/index.ts",
-//         "size": 2048,
-//         "modified": "Mon Oct 01 2025 12:00:00 GMT-0500"
-//       }
-//     }
-//   }
-// }
+// Shallow scan (only top-level contents)
+const folder = IO.utils.scanFolder("/path/to/project");
+console.log(folder.name); // "project"
+console.log(folder.contents.length); // Number of files/folders in root
+
+// Deep scan (recursive)
+const deepFolder = IO.utils.scanFolder("/path/to/project", true);
+console.log(deepFolder.contents.length); // All files/folders recursively
+
+// Access specific content
+const firstItem = folder.contents[0];
+if (firstItem.type === "file") {
+    console.log("File:", firstItem.name, "Size:", firstItem.size);
+} else if (firstItem.type === "folder") {
+    console.log(
+        "Folder:",
+        firstItem.name,
+        "Contents:",
+        firstItem.contents.length
+    );
+}
+
+// Use descriptor methods
+const allFiles = folder.getFiles(true); // Get all files recursively
+const allFolders = folder.getFolders(true); // Get all subfolders recursively
+const allContents = folder.getContents(true); // Get all contents recursively
+```
+
+## Descriptor Classes
+
+The `scanFolder` function returns descriptor objects that provide structured access to file system information.
+
+### `KT_FolderDescriptor`
+
+Represents a folder with its contents and provides methods to query files and subfolders.
+
+**Properties:**
+
+| Property   | Type              | Description                              |
+| ---------- | ----------------- | ---------------------------------------- |
+| `path`     | `string`          | Full path to the folder                  |
+| `name`     | `string`          | Folder name                              |
+| `type`     | `"folder"`        | Always "folder"                          |
+| `exists`   | `boolean`         | Whether the folder exists                |
+| `contents` | `KT_Descriptor[]` | Array of files and subfolder descriptors |
+
+**Methods:**
+
+#### `getFiles(deep?: boolean)`
+
+Returns all files in the folder.
+
+**Arguments:**
+
+| Parameter | Type      | Default | Description                               |
+| --------- | --------- | ------- | ----------------------------------------- |
+| `deep`    | `boolean` | `false` | If `true`, includes files from subfolders |
+
+**Returns:** `KT_FileDescriptor[]` - Array of file descriptors.
+
+#### `getContents(deep?: boolean)`
+
+Returns all contents (files and folders) in the folder.
+
+**Arguments:**
+
+| Parameter | Type      | Default | Description                                  |
+| --------- | --------- | ------- | -------------------------------------------- |
+| `deep`    | `boolean` | `false` | If `true`, includes contents from subfolders |
+
+**Returns:** `KT_Descriptor[]` - Array of file and folder descriptors.
+
+#### `getFolders(deep?: boolean)`
+
+Returns all subfolders in the folder.
+
+**Arguments:**
+
+| Parameter | Type      | Default | Description                                |
+| --------- | --------- | ------- | ------------------------------------------ |
+| `deep`    | `boolean` | `false` | If `true`, includes subfolders recursively |
+
+**Returns:** `KT_FolderDescriptor[]` - Array of folder descriptors.
+
+### `KT_FileDescriptor`
+
+Represents a file with its metadata.
+
+**Properties:**
+
+| Property    | Type     | Description                  |
+| ----------- | -------- | ---------------------------- |
+| `path`      | `string` | Full path to the file        |
+| `name`      | `string` | File name without extension  |
+| `type`      | `"file"` | Always "file"                |
+| `extension` | `string` | File extension (without dot) |
+| `size`      | `number` | File size in bytes           |
+| `modified`  | `string` | Last modified date as string |
+
+**Examples:**
+
+```typescript
+const folder = IO.utils.scanFolder("/path/to/project", true);
+
+// Get all TypeScript files recursively
+const tsFiles = folder.getFiles(true).filter((file) => file.extension === "ts");
+
+// Get all subfolders
+const subfolders = folder.getFolders(false);
+
+// Check if folder exists
+if (!folder.exists) {
+    console.log("Folder does not exist:", folder.path);
+}
+
+// Access file information
+folder.contents.forEach((item) => {
+    if (item.type === "file") {
+        console.log(
+            `File: ${item.name}.${item.extension}, Size: ${item.size} bytes`
+        );
+    } else {
+        console.log(
+            `Folder: ${item.name}, Contents: ${item.contents.length} items`
+        );
+    }
+});
 ```
 
 ```
