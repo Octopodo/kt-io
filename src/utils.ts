@@ -1,7 +1,19 @@
 import { KT_Path } from "./path";
 import { KT_Fs } from "./fs";
+
+type KTFileDescriptor = {
+    type: "file";
+    path: string;
+    size: number;
+    modified: string | null;
+    extension: string | null;
+};
+
 export class KT_IoUtils {
-    static scanFolderTree(folderPath: string): any {
+    static scanFolderTree(
+        folderPath: string,
+        deep: boolean = false
+    ): KTFileDescriptor | null {
         const folder = new Folder(folderPath);
         if (!folder.exists) {
             return null;
@@ -14,11 +26,20 @@ export class KT_IoUtils {
             const item = items[i];
             if (item instanceof Folder) {
                 // It's a subfolder
-                result[item.name] = {
-                    type: "folder",
-                    path: item.fsName,
-                    contents: this.scanFolderTree(item.fsName),
-                };
+
+                if (deep === true) {
+                    result[item.name] = {
+                        type: "folder",
+                        path: item.fsName,
+                        contents: this.scanFolderTree(item.fsName),
+                    };
+                } else {
+                    result[item.name] = {
+                        type: "folder",
+                        path: item.fsName,
+                        contents: null,
+                    };
+                }
             } else if (item instanceof File) {
                 // It's a file
                 const size = item.length;
@@ -30,6 +51,7 @@ export class KT_IoUtils {
                     path: item.fsName,
                     size: size,
                     modified: modified,
+                    extension: KT_Path.getFileExtension(item.name),
                 };
             }
         }
